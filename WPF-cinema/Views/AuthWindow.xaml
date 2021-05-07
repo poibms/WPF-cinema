@@ -1,0 +1,84 @@
+﻿<Window x:Class="WPF_cinema.Views.AuthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:WPF_cinema.Views"
+        xmlns:vm="clr-namespace:WPF_cinema.ViewModels"
+        xmlns:bh="clr-namespace:WPF_cinema.Assistants.Behaviors" 
+        mc:Ignorable="d"
+        Title="AuthWindow" ResizeMode="NoResize"
+        MouseDown="Registerindow_MouseDown" Background="Transparent" 
+        Height="500" Width="350" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Window.DataContext>
+        <vm:AuthWindowViewModel/>
+    </Window.DataContext>
+    <materialDesign:DialogHost 
+        IsOpen="{Binding dialog}">
+        <materialDesign:DialogHost.DialogContent>
+            <Border Height="Auto" Width="Auto">
+                <StackPanel Margin="16">
+                    <TextBlock Text="{Binding dialogText}"/>
+                    <Button Margin="0 10 0 0" Style="{StaticResource MaterialDesignFlatAccentButton}"
+                                Content="Закрыть" Foreground="#1F2437" Width="90" Height="30" Command="{Binding CloseDialogCommand}"/>
+                </StackPanel>
+            </Border>
+        </materialDesign:DialogHost.DialogContent>
+        <Grid>
+            <Border Background="#1F2437" >
+                <Grid Background="Transparent">
+                    <Grid>
+
+                        <Grid>
+                            <Rectangle Height="280" VerticalAlignment="Top" RadiusY="15" RadiusX="15">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#D34A44"/>
+                                        <GradientStop Color="#D34A44" Offset="0.5"/>
+                                        <GradientStop Color="#D34A44" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle >
+                            <Label Content="PalaceOfArts" FontSize="32" Foreground="#fff" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="70"/>
+                            <Rectangle Width="280" Height="240" Fill="White" VerticalAlignment="Bottom" Margin="0,100" RadiusY="15" RadiusX="15">
+                                <Rectangle.Effect>
+                                    <DropShadowEffect Color="#FFBBBBBB" Direction="0" BlurRadius="15" RenderingBias="Quality" ShadowDepth="1"/>
+                                </Rectangle.Effect>
+                            </Rectangle>
+                            <Grid Width="280" Height="240" VerticalAlignment="Bottom" Margin="0,100">
+                                <TextBlock Text="РЕГИСТРАЦИЯ" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" Foreground="Gray" FontSize="18" FontFamily="Roboto"/>
+                                <StackPanel VerticalAlignment="Center" Margin="10">
+
+                                    <TextBox Text="{Binding Login}" materialDesign:HintAssist.Hint="ЛОГИН" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,10">
+                                    </TextBox>
+
+                                    <PasswordBox Margin="0 10" Padding="0" x:Name="passwordBox" materialDesign:HintAssist.Hint="ПАРОЛЬ"  MaxLength="20">
+                                        <PasswordBox.Style>
+                                            <Style TargetType="PasswordBox" BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}">
+                                            </Style>
+                                        </PasswordBox.Style>
+                                        <i:Interaction.Behaviors>
+                                            <bh:PasswordBehaviors Password="{Binding loginPassword, Mode=TwoWay}"/>
+                                        </i:Interaction.Behaviors>
+                                    </PasswordBox>
+
+                                </StackPanel>
+                            </Grid>
+                            <Grid>
+
+                                <Button Command="{Binding LoginCommand}" VerticalAlignment="Bottom" Margin="0,85" Width="150" Background="#D34A44" BorderBrush="#D34A44" Content="Зарегистрировать"/>
+                                <Button  VerticalAlignment="Bottom" Margin="0,45" Width="150" Content="Регистрация" Background="#ffffff" BorderBrush="#D34A44" Foreground="#D34A44" Cursor="Hand"/>
+                            </Grid>
+                        </Grid>
+
+                    </Grid>
+                    <Button  Padding="1"  VerticalAlignment="Top" HorizontalAlignment="Right" Width="25" Height="25"  Margin="0 3 5 0" Background="Transparent" BorderBrush="Transparent">
+                        <materialDesign:PackIcon Kind="Close" Width="30" Height="30" Foreground="#FFF" />
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </materialDesign:DialogHost>
+</Window>

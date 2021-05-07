@@ -1,0 +1,124 @@
+﻿<Window x:Class="WPF_cinema.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:WPF_cinema"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:vm="clr-namespace:WPF_cinema.ViewModels"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
+        Style="{DynamicResource MainWindow}" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Storyboard x:Key="CloseMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Grid.Width)" Storyboard.TargetName="grid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="70"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OpenMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Grid.Width)" Storyboard.TargetName="grid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="70"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="200"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+    </Window.Resources>
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Background="#D34A44"></Grid>
+                <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding selectedVM}"/>
+            </Grid>
+            <Grid x:Name="grid" Width="200" Background="#1F2437" RenderTransformOrigin="0.5, 0.5" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" x:Name="MenuButton" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10" Style="{StaticResource MaterialDesignFlatButton}" Click="MenuButton_Click">
+                    <materialDesign:PackIcon Kind="Menu" Width="25" Height="25" Foreground="White"/>
+                </Button>
+                <ListView x:Name="ListViewMenu" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListViewItem>
+                        <StackPanel Margin="17" Orientation="Horizontal" Height="20">
+                            <materialDesign:PackIcon Kind="Home" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
+                            <TextBlock Text="Главная" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
+                        </StackPanel>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding HomeCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListViewItem>
+                    <ListViewItem>
+                        <StackPanel Margin="17" Orientation="Horizontal" Height="20">
+                            <materialDesign:PackIcon Kind="FoodRamen" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
+                            <TextBlock Text="Каталог" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
+                        </StackPanel>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding MenuCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListViewItem>
+                    <ListViewItem>
+                        <StackPanel Margin="17" Orientation="Horizontal" Height="20">
+                            <materialDesign:PackIcon Kind="TableChair" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
+                            <TextBlock Text="Заказать" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
+                        </StackPanel>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding ReservationCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListViewItem>
+                    <ListViewItem>
+                        <StackPanel Margin="17" Orientation="Horizontal" Height="20">
+                            <materialDesign:PackIcon Kind="Feedback" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
+                            <TextBlock Text="Отзывы" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
+                        </StackPanel>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding FeedbackCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListViewItem>
+
+                    <ListViewItem >
+                        <StackPanel Margin="17" Orientation="Horizontal" Height="20">
+                            <materialDesign:PackIcon Kind="ExitToApp" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
+                            <TextBlock Text="Выход" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
+                        </StackPanel>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding SwitchUserCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListViewItem>
+
+                    <ListViewItem >
+                        <StackPanel Margin="17" Orientation="Horizontal" Height="20">
+                            <materialDesign:PackIcon Kind="AccountSupervisor" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
+                            <TextBlock Text="Админ" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
+                        </StackPanel>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding AdminCommand}" CommandParameter="AdminPage"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListViewItem>
+
+                </ListView>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
