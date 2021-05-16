@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="WPF_cinema.Views.Pages.FilmPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:WPF_cinema.Views.Pages"
+             xmlns:vm="clr-namespace:WPF_cinema.ViewModels.Views"
+             xmlns:convert ="clr-namespace:WPF_cinema.Assistants.Converters"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:FilmPageViewModel}"
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="#F2F1EF">
+    <UserControl.Resources>
+        <convert:ToImg x:Key="ToImg"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+        <RowDefinition Height="40"/>
+        <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Rectangle Grid.Row="0" Grid.ColumnSpan="6" Fill="#cf6863"></Rectangle>
+        <StackPanel Orientation="Horizontal">
+            <Button Padding="1" Margin="10,0,0,0" Background="Transparent" BorderBrush="Transparent" Command="{Binding SwitchViewCommand}">
+                <materialDesign:PackIcon Kind="ArrowBack" Width="30" Height="30" />
+            </Button>
+            <TextBlock Text="{Binding film.FilmsName}" Grid.ColumnSpan="2" FontSize="25" TextAlignment="Left" VerticalAlignment="Center"  Foreground="#F2F1EF" Margin="50,0,0,0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="300"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Image Source="{Binding film.FilmsId, Converter={StaticResource ToImg}}" Margin="30 30 0 0" HorizontalAlignment="Left"/>
+            <StackPanel Grid.Column="1" Margin="20 30 0 0">
+                <TextBlock Text="{Binding film.FilmsName}" FontSize="30"/>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Жанр:" Margin="0 5 0 0" FontSize="18"/>
+                    <TextBlock Text="{Binding film.Genre}" FontSize="20" Margin="10 3 0 0" Foreground="#D34A44"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                    <TextBlock Text="Страна:" Margin="0 5 0 0" FontSize="18"/>
+                    <TextBlock Text="{Binding film.Country}" Margin="10 3 0 0" FontSize="18" Foreground="#6E304B"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                    <TextBlock Text="Режиссер:" Margin="0 5 0 0" FontSize="18"/>
+                    <TextBlock Text="{Binding film.Director}" Margin="10 3 0 0" FontSize="18" Foreground="#6E304B"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                    <TextBlock Text="Длительность (мин):" Margin="0 5 0 0" FontSize="18"/>
+                    <TextBlock Text="{Binding film.FilmsId}" Margin="10 3 0 0" FontSize="18" Foreground="#6E304B"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
+                    <TextBlock Text="Описание:" Margin="0 5 0 0" FontSize="18"/>
+                    <TextBlock Text="{Binding film.Description}" Margin="10 3 0 0" TextWrapping="Wrap" FontSize="18" Foreground="#6E304B"/>
+                </StackPanel>
+                <Button Foreground="#D34A44" Background="Transparent" BorderBrush="#D34A44" BorderThickness="2"  Margin="0 20 0 0" FontSize="14" Width="120" Content="Купить билет" Command="{Binding SessionPageCommand}" Cursor="Hand"/>
+            </StackPanel>
+
+
+        </Grid>
+
+    </Grid>
+</UserControl>

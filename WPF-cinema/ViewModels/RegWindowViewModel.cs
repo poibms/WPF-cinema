@@ -17,6 +17,7 @@ namespace WPF_cinema.ViewModels
         private bool _dialog = false;
         private string _dialogText;
 
+
         public string Name
         {
             get => _name;
@@ -52,20 +53,20 @@ namespace WPF_cinema.ViewModels
         private bool CanRegisterCommandExecute(object p) => Name?.Length > 0 && registerLogin?.Length > 0
             && registerPassword?.Length > 0;
 
-        RegWindow window { get => Application.Current.MainWindow as RegWindow; } 
+        //RegWindow window { get => Application.Current.MainWindow as RegWindow; }
         private void OnRegisterCommandExecuted(object p)
         {
             if (context.Users.FirstOrDefault(u => u.Login == registerLogin) == null)
             {
-                User user = new User(Name, registerLogin, registerPassword);
+                var window = Application.Current.Windows[0];
+                User user = new User(Name, registerLogin,  registerPassword);
                 context.Users.Add(user);
                 context.SaveChanges();
-                var MainWindowViewModel = new MainWindowViewModel(user);
+                var MainWindowViewModel = new MainWindowViewModel(user, "Catalog");
                 var MainWindow = new MainWindow
                 {
                     DataContext = MainWindowViewModel
                 };
-
                 MainWindow.Show();
                 window.Close();
             }
@@ -74,6 +75,16 @@ namespace WPF_cinema.ViewModels
                 dialogText = "Пользователь с данным псевдонимом уже зарегистрирован.";
                 dialog = true;
             }
+        }
+
+        public ICommand AuthWindowCommand { get; }
+        public bool CanAuthWindowCommandExecute(object p) => true;
+        public void OnAuthWindowCommandExecuted(object p)
+        {
+            var window = Application.Current.Windows[0];
+            var AuthWindow = new AuthWindow();
+            AuthWindow.Show();
+            window.Close();
         }
 
         public ICommand CloseDialogCommand { get; }
@@ -85,6 +96,7 @@ namespace WPF_cinema.ViewModels
             #region Commands
 
             RegisterCommand = new LambdaCommand(OnRegisterCommandExecuted, CanRegisterCommandExecute);
+            AuthWindowCommand = new LambdaCommand(OnAuthWindowCommandExecuted, CanAuthWindowCommandExecute);
             CloseDialogCommand = new LambdaCommand(OnCloseDialogCommandExecuted, CanCloseDialogCommandExecute);
 
             #endregion

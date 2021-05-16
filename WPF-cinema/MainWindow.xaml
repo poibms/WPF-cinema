@@ -61,23 +61,23 @@
                     </ListViewItem>
                     <ListViewItem>
                         <StackPanel Margin="17" Orientation="Horizontal" Height="20">
-                            <materialDesign:PackIcon Kind="FoodRamen" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
+                            <materialDesign:PackIcon Kind="FilmOpenOutline" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
                             <TextBlock Text="Каталог" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
                         </StackPanel>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                <i:InvokeCommandAction Command="{Binding MenuCommand}"/>
+                                <i:InvokeCommandAction Command="{Binding SwitchViewCommand}" CommandParameter="Catalog"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ListViewItem>
                     <ListViewItem>
                         <StackPanel Margin="17" Orientation="Horizontal" Height="20">
                             <materialDesign:PackIcon Kind="TableChair" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
-                            <TextBlock Text="Заказать" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
+                            <TextBlock Text="Сеансы" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
                         </StackPanel>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                <i:InvokeCommandAction Command="{Binding ReservationCommand}"/>
+                                <i:InvokeCommandAction Command="{Binding SwitchViewCommand}" CommandParameter="Session"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ListViewItem>
@@ -105,14 +105,14 @@
                         </i:Interaction.Triggers>
                     </ListViewItem>
 
-                    <ListViewItem >
+                    <ListViewItem Visibility="{Binding ItemVisability, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel Margin="17" Orientation="Horizontal" Height="20">
                             <materialDesign:PackIcon Kind="AccountSupervisor" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
                             <TextBlock Text="Админ" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
                         </StackPanel>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                <i:InvokeCommandAction Command="{Binding AdminCommand}" CommandParameter="AdminPage"/>
+                                <i:InvokeCommandAction Command="{Binding SwitchViewCommand}" CommandParameter="AdminPage"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ListViewItem>

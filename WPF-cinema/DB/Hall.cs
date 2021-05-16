@@ -9,13 +9,22 @@ namespace WPF_cinema
     {
         public Hall()
         {
-            Tickets = new HashSet<Ticket>();
+            Sessions = new HashSet<Session>();
         }
 
         public int HallsId { get; set; }
         public string HallsName { get; set; }
         public int Capacity { get; set; }
 
-        public virtual ICollection<Ticket> Tickets { get; set; }
+        public Hall(string HallsName, int Capacity)
+        {
+            this.HallsName = HallsName;
+            this.Capacity = Capacity;
+        }
+        public override string ToString()
+        {
+            return HallsName;
+        }
+        public virtual ICollection<Session> Sessions { get; set; }
     }
 }

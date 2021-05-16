@@ -9,7 +9,7 @@ namespace WPF_cinema
     {
         public Film()
         {
-            Tickets = new HashSet<Ticket>();
+            Sessions = new HashSet<Session>();
         }
 
         public int FilmsId { get; set; }
@@ -17,8 +17,23 @@ namespace WPF_cinema
         public string Country { get; set; }
         public string Director { get; set; }
         public string Genre { get; set; }
-        public TimeSpan? Time { get; set; }
+        public string Time { get; set; }
+        public string Description { get; set; }
 
-        public virtual ICollection<Ticket> Tickets { get; set; }
+        public Film(string filmName, string genre, string country, string director, string time, string description)
+        {
+            this.FilmsName = filmName;
+            this.Genre = genre;
+            this.Country = country;
+            this.Director = director;
+            this.Time = time;
+            this.Description = description;
+
+        }
+        public override string ToString()
+        {
+            return FilmsName;
+        }
+        public virtual ICollection<Session> Sessions { get; set; }
     }
 }

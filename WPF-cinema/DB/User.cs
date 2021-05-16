@@ -27,13 +27,13 @@ namespace WPF_cinema
             this.Password = getHash(password);
         }
 
-        public virtual ICollection<OrderTicket> OrderTickets { get; set; }
-
         public static string getHash(string password)
         {
             var md5 = MD5.Create();
             var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(password));
             return Convert.ToBase64String(hash);
         }
+
+        public virtual ICollection<OrderTicket> OrderTickets { get; set; }
     }
 }

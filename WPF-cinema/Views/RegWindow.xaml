@@ -72,7 +72,7 @@
                             <Grid>
 
                                 <Button Command="{Binding RegisterCommand}" VerticalAlignment="Bottom" Margin="0,85" Width="150" Background="#D34A44" BorderBrush="#D34A44" Content="Зарегистрировать"/>
-                                <Button  VerticalAlignment="Bottom" Margin="0,45" Width="150" Content="Вход" Background="#ffffff" BorderBrush="#D34A44" Foreground="#D34A44" Cursor="Hand"/>
+                                <Button Command="{Binding AuthWindowCommand}" VerticalAlignment="Bottom" Margin="0,45" Width="150" Content="Вход" Background="#ffffff" BorderBrush="#D34A44" Foreground="#D34A44" Cursor="Hand"/>
                             </Grid>
                         </Grid>
 

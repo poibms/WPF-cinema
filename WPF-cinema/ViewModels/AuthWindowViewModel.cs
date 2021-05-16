@@ -48,7 +48,7 @@ namespace WPF_cinema.ViewModels
             if (context.Users.FirstOrDefault(u => u.Login == Login && u.Password == User.getHash(loginPassword)) != null)
             {
                 User user = context.Users.FirstOrDefault(u => u.Login == Login);
-                var MainWindowViewModel = new MainWindowViewModel(user);
+                var MainWindowViewModel = new MainWindowViewModel(user, "Catalog");
                 var MainWindow = new MainWindow
                 {
                     DataContext = MainWindowViewModel
@@ -63,6 +63,17 @@ namespace WPF_cinema.ViewModels
                 dialog = true;
             }
         }
+        
+        public ICommand RegWindowCommand { get; }
+        private bool CanRegWindowCommandExecute(object p) => true;
+        
+        private void OnRegWindowCommandExecuted(object p)
+        {
+
+            var RegWindow = new RegWindow();
+            RegWindow.Show();
+            window.Close();
+        }
 
         public ICommand CloseDialogCommand { get; }
         private bool CanCloseDialogCommandExecute(object p) => true;
@@ -73,6 +84,7 @@ namespace WPF_cinema.ViewModels
             #region Commands
 
             LoginCommand = new LambdaCommand(OnLoginCommandExecuted, CanLoginCommandExecute);
+            RegWindowCommand = new LambdaCommand(OnRegWindowCommandExecuted, CanRegWindowCommandExecute);
             CloseDialogCommand = new LambdaCommand(OnCloseDialogCommandExecuted, CanCloseDialogCommandExecute);
 
             #endregion

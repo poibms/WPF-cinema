@@ -9,13 +9,41 @@ namespace WPF_cinema.ViewModels.Views
 {
     class AdminPageViewModel : BaseViewModel
     {
-        private User user;
+        private readonly User user;
+        private readonly MainWindowViewModel MainWindowVM;
 
+       
 
+        public ICommand HallsViewCommand { get; }
+        private void OnSwitchHallsCommandExecuted(object p)
+        {
+            MainWindowVM.selectedVM = new AddHallsViewModel(user, MainWindowVM);
+        }
+        public ICommand FilmsViewCommand { get; }
+        private void OnSwitchFilmsCommandExecuted(object p)
+        {
+            MainWindowVM.selectedVM = new AddFilmViewModel(user, MainWindowVM);
+        }
+        public ICommand SessionViewCommand { get; }
+        private void OnSwitchSessionCommandExecuted(object p)
+        {
+            MainWindowVM.selectedVM = new AddSessionViewModel(user, MainWindowVM);
+        }
+        public ICommand TicketsViewCommand { get; }
+        private void OnSwitchTicketsCommandExecuted(object p)
+        {
+            MainWindowVM.selectedVM = new AddSessionViewModel(user, MainWindowVM);
+        }
 
-        public AdminPageViewModel(User user)
+        public AdminPageViewModel(User user, MainWindowViewModel vm)
         {
             this.user = user;
+            MainWindowVM = vm;
+
+            HallsViewCommand = new LambdaCommand(OnSwitchHallsCommandExecuted);
+            FilmsViewCommand = new LambdaCommand(OnSwitchFilmsCommandExecuted);
+            SessionViewCommand = new LambdaCommand(OnSwitchSessionCommandExecuted);
+            TicketsViewCommand = new LambdaCommand(OnSwitchTicketsCommandExecuted);
         }
     }
 }

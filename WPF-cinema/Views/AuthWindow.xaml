@@ -48,7 +48,7 @@
                                 </Rectangle.Effect>
                             </Rectangle>
                             <Grid Width="280" Height="240" VerticalAlignment="Bottom" Margin="0,100">
-                                <TextBlock Text="РЕГИСТРАЦИЯ" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" Foreground="Gray" FontSize="18" FontFamily="Roboto"/>
+                                <TextBlock Text="ВХОД" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" Foreground="Gray" FontSize="18" FontFamily="Roboto"/>
                                 <StackPanel VerticalAlignment="Center" Margin="10">
 
                                     <TextBox Text="{Binding Login}" materialDesign:HintAssist.Hint="ЛОГИН" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,10">
@@ -68,8 +68,8 @@
                             </Grid>
                             <Grid>
 
-                                <Button Command="{Binding LoginCommand}" VerticalAlignment="Bottom" Margin="0,85" Width="150" Background="#D34A44" BorderBrush="#D34A44" Content="Зарегистрировать"/>
-                                <Button  VerticalAlignment="Bottom" Margin="0,45" Width="150" Content="Регистрация" Background="#ffffff" BorderBrush="#D34A44" Foreground="#D34A44" Cursor="Hand"/>
+                                <Button Command="{Binding LoginCommand}" VerticalAlignment="Bottom" Margin="0,85" Width="150" Background="#D34A44" BorderBrush="#D34A44" Content="Вход"/>
+                                <Button Command="{Binding RegWindowCommand}" VerticalAlignment="Bottom" Margin="0,45" Width="150" Content="Регистрация" Background="#ffffff" BorderBrush="#D34A44" Foreground="#D34A44" Cursor="Hand"/>
                             </Grid>
                         </Grid>
 

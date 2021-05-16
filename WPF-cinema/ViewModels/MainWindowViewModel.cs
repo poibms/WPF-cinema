@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using WPF_cinema.Views;
 using WPF_cinema.ViewModels.Views;
+using System;
 
 namespace WPF_cinema.ViewModels
 {
@@ -11,6 +12,7 @@ namespace WPF_cinema.ViewModels
     {
         private readonly User user;
         private BaseViewModel _selectedVM;
+        private bool _ItemVisability;
 
         public BaseViewModel selectedVM
         {
@@ -18,34 +20,52 @@ namespace WPF_cinema.ViewModels
             set => Set(ref _selectedVM, value);
         }
 
+        public bool ItemVisability
+        {
+            get => _ItemVisability;
+        }
+
         public ICommand SwitchUserCommand { get; }
         private bool CanSwitchUserCommandExecute(object p) => true;
-        MainWindow window { get => Application.Current.MainWindow as MainWindow; }
+        
         private void OnSwitchUserCommandExecuted(object p)
         {
-            var Regwindow = new RegWindow();
-            Regwindow.Show();
+            var window = Application.Current.Windows[0];
+            var AuthWindow = new AuthWindow();
+            AuthWindow.Show();
             window.Close();
         }
 
-        public ICommand AdminCommand { get; }
-        private bool CanSwitchAdminCommandExecute(object p) => true;
-        private void OnSwitchAdminCommandExecuted(object p)
+        public ICommand SwitchViewCommand { get; }
+        
+        private void OnSwitchViewCommandExecuted(object p)
         {
             switch (p.ToString())
             {
                 case "AdminPage":
-                    selectedVM = new AdminPageViewModel(user);
+                    selectedVM = new AdminPageViewModel(user,this);
+                    break;
+                case "Catalog":
+                    selectedVM = new AllFilmsViewModel(user, this);
+                    break;
+                case "Session":
+                    selectedVM = new SessionPageViewModel(user, this);
                     break;
             }
         }
 
-        public MainWindowViewModel(User user)
+        public MainWindowViewModel(User user, string v)
         {
             this.user = user;
+            _ItemVisability = user.Role != 0;
+
+            if (v == "Catalog")
+                selectedVM = new AllFilmsViewModel(user, this);
 
             SwitchUserCommand = new LambdaCommand(OnSwitchUserCommandExecuted, CanSwitchUserCommandExecute);
-            AdminCommand = new LambdaCommand(OnSwitchAdminCommandExecuted, CanSwitchAdminCommandExecute);
+            SwitchViewCommand = new LambdaCommand(OnSwitchViewCommandExecuted);
         }
+
+       
     }
 }
