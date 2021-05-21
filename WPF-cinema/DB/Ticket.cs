@@ -13,22 +13,24 @@ namespace WPF_cinema
             OrderTickets = new HashSet<OrderTicket>();
         }
 
-        public Ticket(int ticketsId, int place)
+        public Ticket(int row, int place)
         {
-            TicketsId = ticketsId;
+            Row = row;
             Place = place;
             Session = new Session();
-            //OrderTickets = new HashSet<OrderTicket>();
+            OrderTickets = new List<OrderTicket>();
         }
 
         public int TicketsId { get; set; }
-        //[ForeignKey("Session")]
-        
+
+        //4[ForeignKey("Session")]
         public int? SessionId { get; set; }
         public int Row { get; set; }
         public int Place { get; set; }
 
         public virtual Session Session { get; set; }
         public virtual ICollection<OrderTicket> OrderTickets { get; set; }
+
+      
     }
 }

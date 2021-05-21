@@ -22,9 +22,29 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel  Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
-            <TextBlock Text="Сортировать: " VerticalAlignment="Center" FontSize="16"  Foreground="#22161C"/>
-            <ComboBox Foreground="#535252" FontSize="14" materialDesign:HintAssist.Hint="сортировка" Width="100"
+            <StackPanel Orientation="Horizontal" Margin="0 0 20 0">
+                <TextBox Text="{Binding search}"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Stretch"
+                     TextWrapping="Wrap"
+                     Height="30"
+                     MinWidth="200"
+                     Margin="20 10 20 10"
+                     MaxHeight="160"
+                     MaxWidth="400"
+                     materialDesign:HintAssist.Hint="Название"
+                     materialDesign:HintAssist.Foreground="#696969"
+                     FontSize="18" Cursor="IBeam" >
+                </TextBox>
+                <Button VerticalAlignment="Center" Command="{Binding SearchFilms}" Background="#D34A44" BorderBrush="#D34A44" Cursor="Hand">
+                    <materialDesign:PackIcon Kind="Magnify" Width="20" Height="20" VerticalAlignment="Center" />
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Text="Сортировать: " VerticalAlignment="Center" FontSize="16"  Foreground="#22161C"/>
+                <ComboBox Foreground="#535252" FontSize="14" materialDesign:HintAssist.Hint="сортировка" Width="100"
                       ItemsSource="{Binding sorting}" SelectedItem="{Binding sortingSelected}" HorizontalContentAlignment="Center" ScrollViewer.CanContentScroll="True" UseLayoutRounding="True"/>
+            </StackPanel>
         </StackPanel>
 
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible" PreviewMouseWheel="Scroll">
@@ -41,7 +61,7 @@
                             </Border>
                             <Rectangle Grid.ColumnSpan="2" RadiusX="15" RadiusY="15" Fill="#E7E4E3"/>
 
-                           
+
                             <Image Source="{Binding FilmsId, Converter={StaticResource ToImg}}" Margin="18 10 18 10" Cursor="Hand">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="PreviewMouseLeftButtonDown">

@@ -1,4 +1,4 @@
-﻿using System;
+﻿  using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,7 +30,7 @@ namespace WPF_cinema
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             if (MenuClosed)
-            {
+            { 
                 Storyboard openMenu = (Storyboard)MenuButton.FindResource("OpenMenu");
                 openMenu.Begin();
             }

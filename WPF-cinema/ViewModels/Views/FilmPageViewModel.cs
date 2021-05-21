@@ -12,8 +12,7 @@ namespace WPF_cinema.ViewModels.Views
         private readonly CinemaDBContext context = new CinemaDBContext();
         private MainWindowViewModel MainwindowVM;
         private Film _film;
-        private Session _session;
-        private Hall _hall;
+        
 
 
         #endregion
@@ -24,27 +23,15 @@ namespace WPF_cinema.ViewModels.Views
             get => _film;
         }
 
-        private string _output;
 
-        public string Output
-        {
-            get { return _output; }
-            set
-            {
-                _output = value;
-                OnPropertyChanged();
-            }
-        }
-
-
-        public Session session
-        {
-            get => _session;
-        }
-        public Hall hall
-        {
-            get => _hall;
-        }
+        //public Session session
+        //{
+        //    get => _session;
+        //}
+        //public Hall hall
+        //{
+        //    get => _hall;
+        //}
         #endregion
 
         public ICommand SwitchViewCommand { get; }
@@ -52,6 +39,11 @@ namespace WPF_cinema.ViewModels.Views
         private void OnSwitchViewCommandExecuted(object p)
         {
             MainwindowVM.selectedVM = new AllFilmsViewModel(user, MainwindowVM);
+        }
+        public ICommand TicketsPageCommand { get; }
+        private void OnSwitchTicketCommandExecuted(object p)
+        {
+            MainwindowVM.selectedVM = new TicketsWindowViewModel(user,MainwindowVM);
         }
         //public ICommand SessionPageCommand { get; }
         //private bool CanSwitchSassionCommandExecute(object p) => true;
@@ -71,9 +63,11 @@ namespace WPF_cinema.ViewModels.Views
             //var ssion = context.Sessions.FirstOrDefault(s => s.FilmsId == FilmId);
             //var film = context.Films.FirstOrDefault(f => f.FilmsId == ssion.FilmsId);
             //var hall = context.Halls.FirstOrDefault(f => f.HallsId == ssion.HallsId);
-            //Output = film.FilmsName + " " + hall.HallsName + " " + ssion.Date.ToString() + "" + ssion.Time.ToString();
+            //var ticket = context.Tickets.FirstOrDefault(t => t.SessionId == ssion.SessionId);
+            //output = film.FilmsName + " " + hall.HallsName + " " + ssion.Date.ToString() + " " + ssion.Time.ToString() + " " + ticket.Place.ToString() + " " + ticket.Row.ToString();
 
             SwitchViewCommand = new LambdaCommand(OnSwitchViewCommandExecuted, CanSwitchViewCommandExecute);
+            TicketsPageCommand = new LambdaCommand(OnSwitchTicketCommandExecuted);
             //SessionPageCommand = new LambdaCommand(OnSwitchSassionCommandExecuted, CanSwitchSassionCommandExecute);
         }
     }

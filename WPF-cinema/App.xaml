@@ -35,8 +35,8 @@
             <DataTemplate DataType="{x:Type vm:FilmPageViewModel}">
                 <pages:FilmPage/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vm:SessionPageViewModel}">
-                <pages:SessionPage/>
+            <DataTemplate DataType="{x:Type vm:AccountPageViewModel}">
+                <pages:AccountPage/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:TicketsWindowViewModel}">
                 <pages:TicketsWindow/>

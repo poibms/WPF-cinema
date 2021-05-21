@@ -10,6 +10,7 @@ namespace WPF_cinema.ViewModels.Views
 {
     class AddHallsViewModel : BaseViewModel
     {
+        #region private
         private readonly CinemaDBContext context = new CinemaDBContext();
         private readonly Hall addhall;
         private User user;
@@ -17,6 +18,11 @@ namespace WPF_cinema.ViewModels.Views
         private int _capacity;
         private readonly MainWindowViewModel MainWindowVM;
 
+        private bool _dialog = false;
+        private string _dialogText;
+        #endregion
+
+        #region publc
         public string HallsName
         {
             get => _hallsName;
@@ -27,30 +33,53 @@ namespace WPF_cinema.ViewModels.Views
             get => _capacity;
             set => Set(ref _capacity, value);
         }
+        public bool dialog
+        {
+            get => _dialog;
+            set => Set(ref _dialog, value);
+        }
 
+        public string dialogText
+        {
+            get => _dialogText;
+            set => Set(ref _dialogText, value);
+        }
+
+        #endregion 
         private void Reset()
         {
             HallsName = "";
             Capacity = 0;
         }
+        public ICommand CloseDialogCommand { get; }
+        private bool CanCloseDialogCommandExecute(object p) => true;
+        private void OnCloseDialogCommandExecuted(object p) => dialog = false;
 
         public ICommand AddHallsCommand { get; }
         private bool CanAddHallsCommandExecute(object p) => true;
         private void OnAddHallsCommandExecute(object p)
         {
-            var halls = new Hall(HallsName, Capacity);
-            if (addhall == null)
+            if (HallsName != string.Empty && Capacity != 0)
             {
-                context.Halls.Add(halls);
+                var halls = new Hall(HallsName, Capacity);
+                if (addhall == null)
+                {
+                    context.Halls.Add(halls);
+                }
+                else
+                {
+                    halls.HallsId = addhall.HallsId;
+                    addhall.HallsName = HallsName;
+                    addhall.Capacity = Capacity;
+                }
+                context.SaveChanges();
+                Reset();
             }
             else
             {
-                halls.HallsId = addhall.HallsId;
-                addhall.HallsName = HallsName;
-                addhall.Capacity = Capacity;
+                dialogText = "Заполните все поля";
+                dialog = true;
             }
-            context.SaveChanges();
-            Reset();
         }
 
 
@@ -60,6 +89,7 @@ namespace WPF_cinema.ViewModels.Views
             MainWindowVM = vm;
 
             AddHallsCommand = new LambdaCommand(OnAddHallsCommandExecute, CanAddHallsCommandExecute);
+            CloseDialogCommand = new LambdaCommand(OnCloseDialogCommandExecuted, CanCloseDialogCommandExecute);
         }
     }
 }

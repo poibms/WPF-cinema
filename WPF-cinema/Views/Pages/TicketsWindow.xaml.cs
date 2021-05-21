@@ -22,5 +22,19 @@ namespace WPF_cinema.Views.Pages
         {
             InitializeComponent();
         }
+
+        private void Scroll(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scrollViewer = (ScrollViewer)sender;
+            if (e.Delta < 0)
+            {
+                scrollViewer.LineRight();
+            }
+            else
+            {
+                scrollViewer.LineLeft();
+            }
+            e.Handled = true;
+        }
     }
 }

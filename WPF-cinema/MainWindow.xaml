@@ -48,17 +48,7 @@
                     <materialDesign:PackIcon Kind="Menu" Width="25" Height="25" Foreground="White"/>
                 </Button>
                 <ListView x:Name="ListViewMenu" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                    <ListViewItem>
-                        <StackPanel Margin="17" Orientation="Horizontal" Height="20">
-                            <materialDesign:PackIcon Kind="Home" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
-                            <TextBlock Text="Главная" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
-                        </StackPanel>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                <i:InvokeCommandAction Command="{Binding HomeCommand}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ListViewItem>
+                   
                     <ListViewItem>
                         <StackPanel Margin="17" Orientation="Horizontal" Height="20">
                             <materialDesign:PackIcon Kind="FilmOpenOutline" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
@@ -72,26 +62,27 @@
                     </ListViewItem>
                     <ListViewItem>
                         <StackPanel Margin="17" Orientation="Horizontal" Height="20">
-                            <materialDesign:PackIcon Kind="TableChair" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
-                            <TextBlock Text="Сеансы" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
+                            <materialDesign:PackIcon Kind="Ticket" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
+                            <TextBlock Text="Билеты" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
                         </StackPanel>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                <i:InvokeCommandAction Command="{Binding SwitchViewCommand}" CommandParameter="Session"/>
+                                <i:InvokeCommandAction Command="{Binding SwitchViewCommand}" CommandParameter="Ticket"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ListViewItem>
                     <ListViewItem>
                         <StackPanel Margin="17" Orientation="Horizontal" Height="20">
-                            <materialDesign:PackIcon Kind="Feedback" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
-                            <TextBlock Text="Отзывы" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
+                            <materialDesign:PackIcon Kind="Account" Width="20" Height="20" VerticalAlignment="Center" Foreground="White"/>
+                            <TextBlock Text="Аккаунт" Margin="20 0" FontSize="18" VerticalAlignment="Center" Foreground="White"/>
                         </StackPanel>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                <i:InvokeCommandAction Command="{Binding FeedbackCommand}"/>
+                                <i:InvokeCommandAction Command="{Binding SwitchViewCommand}" CommandParameter="Account"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ListViewItem>
+
 
                     <ListViewItem >
                         <StackPanel Margin="17" Orientation="Horizontal" Height="20">

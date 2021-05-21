@@ -24,9 +24,17 @@ namespace WPF_cinema
             this.FilmsId = filmId;
             this.Date = date;
             this.Time = time;
-            //Tickets = new List<Ticket>();
+            Halls = new Hall();
+            Films = new Film();
+            Tickets = new List<Ticket>();
+        }
+
+        public override string ToString()
+        {
+            return Date;
         }
         
+
         public virtual Film Films { get; set; }
         public virtual Hall Halls { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; }

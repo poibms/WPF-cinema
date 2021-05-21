@@ -48,8 +48,11 @@ namespace WPF_cinema.ViewModels
                 case "Catalog":
                     selectedVM = new AllFilmsViewModel(user, this);
                     break;
-                case "Session":
-                    selectedVM = new SessionPageViewModel(user, this);
+                case "Ticket":
+                    selectedVM = new TicketsWindowViewModel(user, this);
+                    break;
+                case "Account":
+                    selectedVM = new AccountPageViewModel(user, this);
                     break;
             }
         }

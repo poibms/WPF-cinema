@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace WPF_cinema.Views.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для SessionPage.xaml
+    /// Логика взаимодействия для AccountPage.xaml
     /// </summary>
-    public partial class SessionPage : UserControl
+    public partial class AccountPage : UserControl
     {
-        public SessionPage()
+        public AccountPage()
         {
             InitializeComponent();
         }
@@ -28,11 +28,11 @@ namespace WPF_cinema.Views.Pages
             ScrollViewer scrollViewer = (ScrollViewer)sender;
             if (e.Delta < 0)
             {
-                scrollViewer.LineDown();
+                scrollViewer.LineRight();
             }
             else
             {
-                scrollViewer.LineUp();
+                scrollViewer.LineLeft();
             }
             e.Handled = true;
         }

@@ -36,7 +36,7 @@ namespace WPF_cinema.ViewModels
         public string dialogText
         {
             get => _dialogText;
-            set => Set(ref _dialogText, value);
+            set => Set(ref _dialogText, value); 
         }
 
         public ICommand LoginCommand { get; }

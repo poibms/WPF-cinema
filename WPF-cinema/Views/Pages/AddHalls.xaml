@@ -10,17 +10,29 @@
              d:DataContext="{d:DesignInstance Type=vm:AddHallsViewModel}"
              d:DesignHeight="450" d:DesignWidth="800"
              Background="#F2F1EF">
-    <Grid>
+
+    <materialDesign:DialogHost 
+        IsOpen="{Binding dialog}">
+        <materialDesign:DialogHost.DialogContent>
+            <Border Height="Auto" Width="Auto">
+                <StackPanel Margin="16">
+                    <TextBlock Text="{Binding dialogText}"/>
+                    <Button Margin="0 10 0 0" Style="{StaticResource MaterialDesignFlatAccentButton}"
+                                Content="Закрыть" Foreground="#1F2437" Width="90" Height="30" Command="{Binding CloseDialogCommand}"/>
+                </StackPanel>
+            </Border>
+        </materialDesign:DialogHost.DialogContent>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="Добавление зала" Margin="10" FontFamily="AnastasiaScriptC" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="35" Foreground="#D34A44" FontWeight="Bold"/>
-            <Grid Grid.Row="1" Margin="0 10 0 0">
-                
-                <StackPanel VerticalAlignment="Center">
-                    <TextBox 
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Добавление зала" Margin="10" FontFamily="AnastasiaScriptC" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="35" Foreground="#D34A44" FontWeight="Bold"/>
+                <Grid Grid.Row="1" Margin="0 10 0 0">
+
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBox 
                              Text="{Binding HallsName}"
                              VerticalAlignment="Center"
                              HorizontalAlignment="Stretch"
@@ -32,9 +44,9 @@
                              materialDesign:HintAssist.Hint="Название зала"
                              materialDesign:HintAssist.Foreground="#696969"
                              FontSize="18" Grid.ColumnSpan="2" Cursor="IBeam" >
-                    </TextBox>
-                    
-                    <TextBox 
+                        </TextBox>
+
+                        <TextBox 
                             x:Name="TextCapacity"
                              Text="{Binding Capacity}"
                              VerticalAlignment="Center"
@@ -47,16 +59,17 @@
                              materialDesign:HintAssist.Hint="Вместимость"
                              materialDesign:HintAssist.Foreground="#696969"
                              FontSize="18" Grid.ColumnSpan="2" >
-                    </TextBox>
+                        </TextBox>
 
-                    <Button Foreground="#F2F1EF" 
+                        <Button Foreground="#F2F1EF" 
                             Background="#D34A44"
                             BorderBrush="#D34A44"
                             Margin="0 25 0 0" FontSize="14" 
                             Width="120" Content="Загрузить" 
                             Command="{Binding AddHallsCommand}"/>
-                </StackPanel>
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Grid>
-    </Grid>
+    </materialDesign:DialogHost>
 </UserControl>

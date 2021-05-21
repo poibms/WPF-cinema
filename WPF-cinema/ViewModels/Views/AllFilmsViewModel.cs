@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace WPF_cinema.ViewModels.Views
 {
@@ -19,11 +20,10 @@ namespace WPF_cinema.ViewModels.Views
         private MainWindowViewModel MainwindowVM;
         private ObservableCollection<Film> _filmList;
 
-        
+        private string _search;
         private string _sortingSelected;
 
         #region public
-       
 
         public ObservableCollection<Film> filmList
         {
@@ -36,6 +36,11 @@ namespace WPF_cinema.ViewModels.Views
             get => _sorting;
         }
 
+        public string search
+        {
+            get => _search;
+            set => Set(ref _search, value);
+        }
         public string sortingSelected
         {
             get => _sortingSelected;
@@ -50,15 +55,25 @@ namespace WPF_cinema.ViewModels.Views
                     case "по алфавиту":
                         filmList = new ObservableCollection<Film>(context.Films.OrderBy(f => f.FilmsName));
                         break;
-                        //case "сброс":
-                        //    filmList = new ObservableCollection<Film>(context.Films.OrderBy(b => b.FilmsName)); /*ыыыыы аааа как тут*/
-                        //    break;
                 }
             }
         }
         #endregion
 
-
+        public ICommand SearchFilms { get; }
+        public bool CamSearchFilmsCommandExecute(object p) => true;
+        public void OnSearchFilmsCommandExecute(object p)
+        {
+            if(!string.IsNullOrWhiteSpace(search))
+            {
+                filmList = new ObservableCollection<Film>(context.Films.Where(f => f.FilmsName.Contains(search)));
+            }
+            else if (string.IsNullOrWhiteSpace(search))
+            {
+                filmList = new ObservableCollection<Film>(context.Films.AsNoTracking().ToList());
+            }
+            
+        }
 
         public ICommand SwitchViewCommand { get; }
         private void OnSwitchViewCommandExecuted(object p)
@@ -73,6 +88,7 @@ namespace WPF_cinema.ViewModels.Views
             sortingSelected = sorting[0];
 
             SwitchViewCommand = new LambdaCommand(OnSwitchViewCommandExecuted);
+            SearchFilms = new LambdaCommand(OnSearchFilmsCommandExecute, CamSearchFilmsCommandExecute);
             
         }
     }

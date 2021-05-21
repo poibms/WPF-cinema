@@ -163,6 +163,7 @@ namespace WPF_cinema.ViewModels.Views
 
             SelectImagePathCommand = new LambdaCommand(OnSelectImagePathCommandExecuted, CanSelectImagePathCommandExecute);
             AddFillmCommand = new LambdaCommand(OnAddFilmCommandExecuted, CanAddFilmCommandExecute);
+            CloseDialogCommand = new LambdaCommand(OnCloseDialogCommandExecuted, CanCloseDialogCommandExecute);
         }
     }
 }

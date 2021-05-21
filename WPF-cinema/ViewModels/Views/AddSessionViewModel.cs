@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using WPF_cinema.Assistants.Commands;
 using WPF_cinema.Views;
 using System;
+using System.Collections.Generic;
 
 namespace WPF_cinema.ViewModels.Views
 {
@@ -13,16 +14,15 @@ namespace WPF_cinema.ViewModels.Views
     {
         #region private
         private User user;
-        private Session session;
-        private Hall hall;
+
         private CinemaDBContext context = new CinemaDBContext();
-        private ObservableCollection<Film> _films = new ObservableCollection<Film>((new CinemaDBContext()).Films);
-        private ObservableCollection<Hall> _halls = new ObservableCollection<Hall>((new CinemaDBContext()).Halls);
+        private List<Film> _films;
+        private List<Hall> _halls;
         private Film _selectedFilm;
         private Hall _selectedHall;
         private string _date;
         private string _time;
-        int place = 10;
+        int place = 50;
         private MainWindowViewModel mainWindowVM;
 
         #endregion
@@ -37,7 +37,7 @@ namespace WPF_cinema.ViewModels.Views
         //    get => _selectedHall;
         //}
 
-        public ObservableCollection<Film> films
+        public List<Film> films
         {
             get => _films;
             set => Set(ref _films, value);
@@ -47,7 +47,7 @@ namespace WPF_cinema.ViewModels.Views
             get => _selectedFilm;
             set => Set(ref _selectedFilm, value);
         }
-        public ObservableCollection<Hall> halls
+        public List<Hall> halls
         {
             get => _halls;
             set => Set(ref _halls, value);
@@ -73,34 +73,40 @@ namespace WPF_cinema.ViewModels.Views
         private bool CanToSessionCommandExecute(object p) => true;
         private void OnToSessionCommandExecuted(object p)
         {
-            
-                var ses1 = new Session(selectedFilm.FilmsId, selectedHall.HallsId, date, time);
+
+            var ses1 = new Session(selectedFilm.FilmsId, selectedHall.HallsId, date, time);
+            ses1.Films = selectedFilm;
+            ses1.Halls = selectedHall;
             if (context.Sessions.FirstOrDefault(s => s.FilmsId == _selectedFilm.FilmsId && s.HallsId == selectedHall.HallsId && s.Date == date && s.Time == time) == null)
             {
                 context.Sessions.Add(ses1);
-
-                
                 context.SaveChanges();
             }
             if (context.Tickets.FirstOrDefault(t => t.SessionId == ses1.SessionId) == null)
             {
-                for (int i = 1; i < selectedHall.Capacity / place; i++)
+                for (int i = 1; i < 5; i++)
                 {
-                    for (int j = 1; j <= place; j++)
+                    for (int j = 1; j <= 5; j++)
                     {
-                        context.Tickets.Add(new Ticket { SessionId = ses1.SessionId, Row = j,Place = i });
+                        //context.Tickets.Add(new Ticket { SessionId = ses1.SessionId, Row = j, Place = i });
+                        Ticket tic = new Ticket(j,i);
+                        tic.Session = context.Sessions.FirstOrDefault(s => s.SessionId == ses1.SessionId);
+                        context.Tickets.Add(tic);
                     }
                 }
-                        context.SaveChanges();
+                context.SaveChanges();
             }
 
 
         }
-            
+
         public AddSessionViewModel(User user, MainWindowViewModel vm)
         {
             this.user = user;
             mainWindowVM = vm;
+
+            films = context.Films.ToList();
+            halls = context.Halls.ToList();
 
             AddSessionommand = new LambdaCommand(OnToSessionCommandExecuted, CanToSessionCommandExecute);
         }

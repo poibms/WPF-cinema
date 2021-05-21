@@ -55,16 +55,15 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
                     <TextBlock Text="Длительность (мин):" Margin="0 5 0 0" FontSize="18"/>
-                    <TextBlock Text="{Binding film.FilmsId}" Margin="10 3 0 0" FontSize="18" Foreground="#6E304B"/>
+                    <TextBlock Text="{Binding film.Time}" Margin="10 3 0 0" FontSize="18" Foreground="#6E304B"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 5 0 0">
                     <TextBlock Text="Описание:" Margin="0 5 0 0" FontSize="18"/>
                     <TextBlock Text="{Binding film.Description}" Margin="10 3 0 0" TextWrapping="Wrap" FontSize="18" Foreground="#6E304B"/>
                 </StackPanel>
-                <Button Foreground="#D34A44" Background="Transparent" BorderBrush="#D34A44" BorderThickness="2"  Margin="0 20 0 0" FontSize="14" Width="120" Content="Купить билет" Command="{Binding SessionPageCommand}" Cursor="Hand"/>
+                <Button Foreground="#D34A44" Background="Transparent" BorderBrush="#D34A44" BorderThickness="2"  Margin="0 20 0 0" FontSize="14" Width="120" Content="Купить билет" Command="{Binding TicketsPageCommand}" Cursor="Hand"/>
             </StackPanel>
-
-
+            
         </Grid>
 
     </Grid>
