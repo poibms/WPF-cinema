@@ -20,8 +20,8 @@ namespace WPF_cinema.ViewModels.Views
         private CinemaDBContext context = new CinemaDBContext();
         private MainWindowViewModel MainwindowVM;
         private readonly string _myDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-        /*= new BitmapImage(new Uri("pack://application:,,,/Styles/Img/unnamed.png"))*/
-        
+        //private readonly BitmapImage _noPhoto = new BitmapImage(new Uri(@"pack://application:,,,/Styles/Img/unnamed.png"));
+
         private BitmapImage _filmPicture = new BitmapImage();
         private Film editfilm;
 
@@ -96,7 +96,9 @@ namespace WPF_cinema.ViewModels.Views
             director = "";
             time = "";
             description = "";
-             
+            //filmPicture = _noPhoto;
+
+
         }
 
         public ICommand CloseDialogCommand { get; }
@@ -141,12 +143,12 @@ namespace WPF_cinema.ViewModels.Views
 
                 }
                 context.SaveChanges();
-                Directory.CreateDirectory(_myDocumentsPath + $@"\PalaceOfArts\films\{film.FilmsId}");
-                try
-                {
-                    File.Copy(_imgPath, _myDocumentsPath + $@"\PalaceOfArts\films\{film.FilmsId}\cover.jpg", true);
-                }
-                catch { }
+                //Directory.CreateDirectory(_myDocumentsPath + $@"\PalaceOfArts\films\{film.FilmsId}");
+                //try
+                //{
+                //    File.Copy(_imgPath, _myDocumentsPath + $@"\PalaceOfArts\films\{film.FilmsId}\cover.jpg", true);
+                //}
+                //catch { }
                 Reset();
             }
             else

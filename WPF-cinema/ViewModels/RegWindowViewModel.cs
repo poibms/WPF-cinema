@@ -12,6 +12,7 @@ namespace WPF_cinema.ViewModels
     {
         private readonly CinemaDBContext context = new CinemaDBContext();
         private string _name;
+        private string _email;
         private string _reglogin;
         private string _registerPassword;
         private bool _dialog = false;
@@ -22,6 +23,11 @@ namespace WPF_cinema.ViewModels
         {
             get => _name;
             set => Set(ref _name, value);
+        }
+        public string Email
+        {
+            get => _email;
+            set => Set(ref _email, value);
         }
 
         public string registerLogin
@@ -58,17 +64,22 @@ namespace WPF_cinema.ViewModels
         {
             if (context.Users.FirstOrDefault(u => u.Login == registerLogin) == null)
             {
-                var window = Application.Current.Windows[0];
-                User user = new User(Name, registerLogin,  registerPassword);
-                context.Users.Add(user);
-                context.SaveChanges();
-                var MainWindowViewModel = new MainWindowViewModel(user, "Catalog");
-                var MainWindow = new MainWindow
-                {
-                    DataContext = MainWindowViewModel
-                };
-                MainWindow.Show();
-                window.Close();
+                //if (context.Users.FirstOrDefault(u => u.UserId == 0))
+                //{
+
+                //    conte
+                    var window = Application.Current.Windows[0];
+                    User user = new User(Name, Email, registerLogin, registerPassword);
+                    context.Users.Add(user);
+                    context.SaveChanges();
+                    var MainWindowViewModel = new MainWindowViewModel(user, "Catalog");
+                    var MainWindow = new MainWindow
+                    {
+                        DataContext = MainWindowViewModel
+                    };
+                    MainWindow.Show();
+                    window.Close();
+                
             }
             else
             {

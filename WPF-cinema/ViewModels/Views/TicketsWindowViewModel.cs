@@ -9,6 +9,7 @@ using System.Net.NetworkInformation;
 using System;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.EntityFrameworkCore;
 
 namespace WPF_cinema.ViewModels.Views
 {
@@ -19,14 +20,15 @@ namespace WPF_cinema.ViewModels.Views
         private CinemaDBContext context = new CinemaDBContext();
         private ObservableCollection<Session> _session = new ObservableCollection<Session>(new CinemaDBContext().Sessions);
         private ObservableCollection<Film> _film = new ObservableCollection<Film>(new CinemaDBContext().Films);
-        private List<Ticket> _tickets;
+        private ObservableCollection<Ticket> _tickets;
         private Ticket _selectedOutput;
         private User user;
         private Session _date;
         private Film _filmname;
-        private MainWindowViewModel mainwindowVM;
+        private readonly MainWindowViewModel MainWindowVM;
 
         private Visibility _visibleState = Visibility.Visible;
+        private bool _enable = true;
         private bool _dialog = false;
         private string _dialogText;
 
@@ -55,7 +57,7 @@ namespace WPF_cinema.ViewModels.Views
             get => _filmname;
             set => Set(ref _filmname, value);
         }
-        public List<Ticket> tickets
+        public ObservableCollection<Ticket> tickets
         {
             get => _tickets;
             set => Set(ref _tickets, value);
@@ -77,6 +79,11 @@ namespace WPF_cinema.ViewModels.Views
             get => _dialog;
             set => Set(ref _dialog, value);
         }
+        public bool enable
+        {
+            get => _enable;
+            set => Set(ref _enable, value);
+        }
 
         public string dialogText
         {
@@ -95,7 +102,7 @@ namespace WPF_cinema.ViewModels.Views
         private bool CanSortTicketsComandExecute(object p) => true;
         private void OnSortTicketsCommandExecute(object p)
         {
-            
+
             if (filmname == null || Date == null)
             {
                 dialogText = "Заполните все поля";
@@ -103,14 +110,21 @@ namespace WPF_cinema.ViewModels.Views
             }
             else
             {
-                tickets = (context.Tickets.Where(t => t.Session.Films.FilmsName == filmname.FilmsName && t.Session.Date == Date.Date).ToList());
+                tickets = new ObservableCollection<Ticket>(context.Tickets.Where(t => t.Session.Films.FilmsName == filmname.FilmsName && t.Session.Date == Date.Date).ToList());
                 if (tickets.Count == 0)
                 {
-                    dialogText ="Билетов нет";
+                    dialogText = "Билетов нет";
                     dialog = true;
                 }
-                //tickets = context.Tickets.Where(t => t.Session.Films.FilmsName.Contains(filmname)).ToList();
+
             }
+        }
+
+        public ICommand RefreshTickets { get; }
+        private bool CanRefreshTicketsComandExecute(object p) => true;
+        private void OnRefreshTicketsCommandExecute(object p)
+        {
+            tickets = new ObservableCollection<Ticket>(context.Tickets.AsNoTracking().ToList());
         }
         private static bool _CanPingGoogle()
         {
@@ -140,23 +154,24 @@ namespace WPF_cinema.ViewModels.Views
             {
                 context.OrderTickets.Add(new OrderTicket { TicketsId = selectedOutput.TicketsId, UserId = user.UserId });
                 context.SaveChanges();
-                tickets.Remove(selectedOutput);
+
+                //tickets.Remove(selectedOutput);
                 //if (_CanPingGoogle())
                 //{
                 //    try
                 //    {
                 //        MailAddress from = new MailAddress("unc7447@gmail.com", "Company Rentlock");
-                //        MailAddress to = new MailAddress($"{}");
+                //        MailAddress to = new MailAddress($"{user.Email}");
                 //        MailMessage m = new MailMessage(from, to);
                 //        m.Subject = "Rentlock";
-                //        m.Body = $"<h2>Dear {name}, thank you for oredring the {car} on the {date}.\nWe will contact you at the number {phone} as soon as possible.</h2>";
+                //        m.Body = $"<h2>Dear {user.Name}, thank you for oredring the {selectedOutput.Session.Films.FilmsName} on the {selectedOutput.Session.Date} {selectedOutput.Session.Time}.</h2>";
                 //        m.IsBodyHtml = true;
                 //        SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
                 //        smtp.Credentials = new NetworkCredential("unc7447@gmail.com", "Macbook2019");
                 //        smtp.EnableSsl = true;
                 //        smtp.Send(m);
                 //        Console.Read();
-                //        MessageBox.Show($"Thank you for order, our manager will contact you.\nCheck your e-mail {nowemailrent}.");
+                //        MessageBox.Show($"Thank you for order, our manager will contact you.\nCheck your e-mail {user.Email}.");
 
                 //    }
                 //    catch
@@ -169,7 +184,9 @@ namespace WPF_cinema.ViewModels.Views
                 //    MessageBox.Show("Thank you for order, our manager will contact you");
 
                 //}
-
+                
+                dialogText = "Спасибо за заказ";
+                dialog = true;
             }
             else
             {
@@ -179,25 +196,31 @@ namespace WPF_cinema.ViewModels.Views
         }
         #endregion
 
+        public ICommand AccountCommand { get; }
+        private void OnAccountCommandCommandExecuted(object p)
+        {
+            MainWindowVM.selectedVM = new AccountPageViewModel(user, MainWindowVM);
+        }
+
         public TicketsWindowViewModel(User user, MainWindowViewModel mainwindowVM)
         {
             this.user = user;
-            this.mainwindowVM = mainwindowVM;
+            this.MainWindowVM = mainwindowVM;
 
-            tickets = context.Tickets.ToList();
-            //List<Output> hyulist = new List<Output>();
+            tickets = new ObservableCollection<Ticket>(context.Tickets.ToList());
+            
             foreach (var ticket in tickets)
             {
                 ticket.Session = context.Sessions.FirstOrDefault(s => s.SessionId == ticket.SessionId);
                 ticket.Session.Films = context.Films.FirstOrDefault(f => f.FilmsId == ticket.Session.FilmsId);
                 ticket.Session.Halls = context.Halls.FirstOrDefault(f => f.HallsId == ticket.Session.HallsId);
-                //Output h = new Output(ticket.Session.Halls.HallsName, ticket.Session.Films.FilmsName, ticket.Session.Date, ticket.Session.Time, ticket.Place, ticket.Row);
-                //hyulist.Add(h);
             }
 
 
             AddOrderTicketCommand = new LambdaCommand(OnAddOrderTicketCommandExecuted, CanAddOrderTicketCommandExecute);
             SortTickets = new LambdaCommand(OnSortTicketsCommandExecute, CanSortTicketsComandExecute);
+            RefreshTickets = new LambdaCommand(OnRefreshTicketsCommandExecute, CanRefreshTicketsComandExecute);
+            AccountCommand = new LambdaCommand(OnAccountCommandCommandExecuted);
             CloseDialogCommand = new LambdaCommand(OnCloseDialogCommandExecuted, CanCloseDialogCommandExecute);
         }
     }

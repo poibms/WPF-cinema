@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -16,13 +17,16 @@ namespace WPF_cinema
 
         public int UserId { get; set; }
         public string Name { get; set; }
+        [StringLength(50)]
+        public string Email { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
         public int? Role { get; set; }
 
-        public User(string name, string login, string password)
+        public User(string name, string email, string login, string password)
         {
             this.Name = name;
+            this.Email = email;
             this.Login = login;
             this.Password = getHash(password);
         }

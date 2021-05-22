@@ -80,6 +80,11 @@ namespace WPF_cinema.ViewModels.Views
         {
             MainwindowVM.selectedVM = new FilmPageViewModel(user, (int)p, MainwindowVM);
         }
+        //public ICommand EditFilmCommand { get; }
+        //private void OnEditFilmCommandExecuted(object p)
+        //{
+        //    MainwindowVM.selectedVM = new AddFilmViewModel(user, (int)p);
+        //}
 
         public AllFilmsViewModel(User user, MainWindowViewModel vm)
         {

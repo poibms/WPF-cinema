@@ -30,14 +30,15 @@ namespace WPF_cinema
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             if (MenuClosed)
-            { 
-                Storyboard openMenu = (Storyboard)MenuButton.FindResource("OpenMenu");
-                openMenu.Begin();
-            }
-            else
             {
                 Storyboard closeMenu = (Storyboard)MenuButton.FindResource("CloseMenu");
                 closeMenu.Begin();
+            }
+            else
+            {
+                
+                Storyboard openMenu = (Storyboard)MenuButton.FindResource("OpenMenu");
+                openMenu.Begin();
             }
 
             MenuClosed = !MenuClosed;

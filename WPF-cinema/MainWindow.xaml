@@ -39,7 +39,7 @@
                 <Grid Background="#D34A44"></Grid>
                 <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding selectedVM}"/>
             </Grid>
-            <Grid x:Name="grid" Width="200" Background="#1F2437" RenderTransformOrigin="0.5, 0.5" Grid.Column="0">
+            <Grid x:Name="grid" Width="70" Background="#1F2437" RenderTransformOrigin="0.5, 0.5" Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="60"/>
                     <RowDefinition Height="*"/>

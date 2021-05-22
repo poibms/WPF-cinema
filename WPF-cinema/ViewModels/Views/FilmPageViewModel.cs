@@ -40,11 +40,11 @@ namespace WPF_cinema.ViewModels.Views
         {
             MainwindowVM.selectedVM = new AllFilmsViewModel(user, MainwindowVM);
         }
-        public ICommand TicketsPageCommand { get; }
-        private void OnSwitchTicketCommandExecuted(object p)
-        {
-            MainwindowVM.selectedVM = new TicketsWindowViewModel(user,MainwindowVM);
-        }
+        //public ICommand TicketsPageCommand { get; }
+        //private void OnSwitchTicketCommandExecuted(object p)
+        //{
+        //    MainwindowVM.selectedVM = new TicketsWindowViewModel(user,MainwindowVM);
+        //}
         //public ICommand SessionPageCommand { get; }
         //private bool CanSwitchSassionCommandExecute(object p) => true;
         //private void OnSwitchSassionCommandExecuted(object p)
@@ -67,7 +67,7 @@ namespace WPF_cinema.ViewModels.Views
             //output = film.FilmsName + " " + hall.HallsName + " " + ssion.Date.ToString() + " " + ssion.Time.ToString() + " " + ticket.Place.ToString() + " " + ticket.Row.ToString();
 
             SwitchViewCommand = new LambdaCommand(OnSwitchViewCommandExecuted, CanSwitchViewCommandExecute);
-            TicketsPageCommand = new LambdaCommand(OnSwitchTicketCommandExecuted);
+            //TicketsPageCommand = new LambdaCommand(OnSwitchTicketCommandExecuted);
             //SessionPageCommand = new LambdaCommand(OnSwitchSassionCommandExecuted, CanSwitchSassionCommandExecute);
         }
     }

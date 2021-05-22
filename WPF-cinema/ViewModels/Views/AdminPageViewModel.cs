@@ -4,16 +4,41 @@ using System.Windows;
 using System.Windows.Input;
 using WPF_cinema.Views;
 using WPF_cinema.ViewModels.Views;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace WPF_cinema.ViewModels.Views
 {
     class AdminPageViewModel : BaseViewModel
     {
+        #region private
         private readonly User user;
+        private CinemaDBContext context = new CinemaDBContext();
         private readonly MainWindowViewModel MainWindowVM;
+        private ObservableCollection<Film> _film = new ObservableCollection<Film>(new CinemaDBContext().Films);
+        private Film _selectedfilm;
+        private Film _flmname;
 
-       
+        #endregion
 
+        #region public
+        public ObservableCollection<Film> Film
+        {
+            get => _film;
+            set => Set(ref _film, value);
+        }
+        public Film selectedFilm
+        {
+            get => _selectedfilm;
+            set => Set(ref _selectedfilm, value);
+        }
+        public Film FilmName
+        {
+            get => _flmname;
+            set => Set(ref _flmname, value);
+        }
+        #endregion
+        #region command
         public ICommand HallsViewCommand { get; }
         private void OnSwitchHallsCommandExecuted(object p)
         {
@@ -34,6 +59,31 @@ namespace WPF_cinema.ViewModels.Views
         {
             MainWindowVM.selectedVM = new AddSessionViewModel(user, MainWindowVM);
         }
+        public ICommand DeleteFilmCommand { get; }
+        private bool CanDeleteFilmCommandExecute(object p) => true;
+        private void OnDeleteFilmCommandExecute(object p)
+        {
+            foreach (Film flm in context.Films.Where(f => f.FilmsId == FilmName.FilmsId))
+            {
+                context.Films.Remove(flm);
+            }
+            foreach (Session ssion in context.Sessions.Where(s => s.FilmsId == FilmName.FilmsId))
+            {
+                context.Sessions.Remove(ssion);
+            } 
+            foreach (Ticket tckt in context.Tickets.Where(t => t.Session.Films.FilmsId == FilmName.FilmsId))
+            {
+                context.Tickets.Remove(tckt);
+            }
+            foreach (OrderTicket ordtckt in context.OrderTickets.Where(o => o.Tickets.Session.Films.FilmsId == FilmName.FilmsId))
+            {
+                context.OrderTickets.Remove(ordtckt);
+            }
+            context.SaveChanges();
+
+        }
+        
+        #endregion
 
         public AdminPageViewModel(User user, MainWindowViewModel vm)
         {
@@ -44,6 +94,8 @@ namespace WPF_cinema.ViewModels.Views
             FilmsViewCommand = new LambdaCommand(OnSwitchFilmsCommandExecuted);
             SessionViewCommand = new LambdaCommand(OnSwitchSessionCommandExecuted);
             TicketsViewCommand = new LambdaCommand(OnSwitchTicketsCommandExecuted);
+            
+            DeleteFilmCommand = new LambdaCommand(OnDeleteFilmCommandExecute, CanDeleteFilmCommandExecute);
         }
     }
 }

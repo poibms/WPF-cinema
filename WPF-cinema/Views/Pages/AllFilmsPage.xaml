@@ -99,6 +99,15 @@
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu Cursor="Hand">
+                                    <MenuItem Header="Редактировать" Command="{Binding Path=PlacementTarget.Tag.EditFilmCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" 
+                                              CommandParameter="{Binding FilmsId}"/>
+                                    <MenuItem Header="Удалить"/>
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                 </ListBox.ItemContainerStyle>
             </ListBox>

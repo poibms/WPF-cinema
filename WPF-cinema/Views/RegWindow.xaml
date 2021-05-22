@@ -42,22 +42,22 @@
                                 </Rectangle.Fill>
                             </Rectangle >
                             <Label Content="PalaceOfArts" FontSize="32" Foreground="#fff" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="70"/>
-                            <Rectangle Width="280" Height="240" Fill="White" VerticalAlignment="Bottom" Margin="0,100" RadiusY="15" RadiusX="15">
+                            <Rectangle Width="280" Height="260" Fill="White" VerticalAlignment="Bottom" Margin="0,100" RadiusY="15" RadiusX="15">
                                 <Rectangle.Effect>
                                     <DropShadowEffect Color="#FFBBBBBB" Direction="0" BlurRadius="15" RenderingBias="Quality" ShadowDepth="1"/>
                                 </Rectangle.Effect>
                             </Rectangle>
-                            <Grid Width="280" Height="240" VerticalAlignment="Bottom" Margin="0,100">
-                                <TextBlock Text="РЕГИСТРАЦИЯ" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" Foreground="Gray" FontSize="18" FontFamily="Roboto"/>
+                            <Grid Width="280" Height="260" VerticalAlignment="Bottom" Margin="0,100">
+                                <TextBlock Text="РЕГИСТРАЦИЯ" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5 20 5 5" Foreground="Gray" FontSize="18" FontFamily="Roboto"/>
                                 <StackPanel VerticalAlignment="Center" Margin="10">
 
-                                    <TextBox Text="{Binding Name}" materialDesign:HintAssist.Hint="ИМЯ" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,10">
+                                    <TextBox Text="{Binding Name}" materialDesign:HintAssist.Hint="ИМЯ" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,5"></TextBox>
+                                    <TextBox Text="{Binding Email}" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,5"></TextBox>
+
+                                    <TextBox Text="{Binding registerLogin}" materialDesign:HintAssist.Hint="ЛОГИН" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,5">
                                     </TextBox>
 
-                                    <TextBox Text="{Binding registerLogin}" materialDesign:HintAssist.Hint="ЛОГИН" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,10">
-                                    </TextBox>
-
-                                    <PasswordBox Margin="0 10" Padding="0" x:Name="passwordBox" materialDesign:HintAssist.Hint="ПАРОЛЬ"  MaxLength="20" Cursor="IBeam">
+                                    <PasswordBox Margin="0 5" Padding="0" x:Name="passwordBox" materialDesign:HintAssist.Hint="ПАРОЛЬ"  MaxLength="20" Cursor="IBeam">
                                         <PasswordBox.Style>
                                             <Style TargetType="PasswordBox" BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}">
                                             </Style>
