@@ -21,7 +21,7 @@ namespace WPF_cinema.ViewModels.Views
         private CinemaDBContext context = new CinemaDBContext();
         private MainWindowViewModel MainwindowVM;
         private readonly string _myDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-        //private readonly BitmapImage _noPhoto = new BitmapImage(new Uri(@"pack://application:,,,/Styles/Img/unnamed.png"));
+        
 
         private BitmapImage _filmPicture = new BitmapImage();
         private Film editfilm;

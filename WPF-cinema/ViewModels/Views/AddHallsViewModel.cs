@@ -5,6 +5,7 @@ using WPF_cinema.Views;
 using WPF_cinema.ViewModels.Views;
 using WPF_cinema.Assistants.Commands;
 using WPF_cinema.ViewModels.Base;
+using System.Linq;
 
 namespace WPF_cinema.ViewModels.Views
 {
@@ -61,40 +62,47 @@ namespace WPF_cinema.ViewModels.Views
         {
             if (HallsName != string.Empty && Capacity != 0)
             {
-                
+                if (context.Halls.FirstOrDefault(h => h.HallsName == HallsName && Capacity == Capacity) == null)
                 {
-                    var halls = new Hall(HallsName, Capacity);
-                    context.Halls.Add(halls);
-                    //if (addhall == null)
-                    //{
-                    //    context.Halls.Add(halls);
-                    //}
-                    //else
-                    //{
-                    //    halls.HallsId = addhall.HallsId;
-                    //    addhall.HallsName = HallsName;
-                    //    addhall.Capacity = Capacity;
-                    //}
-                    context.SaveChanges();
-                    Reset();
+                    
+                        var halls = new Hall(HallsName, Capacity);
+                        context.Halls.Add(halls);
+                        //if (addhall == null)
+                        //{
+                        //    context.Halls.Add(halls);
+                        //}
+                        //else
+                        //{
+                        //    halls.HallsId = addhall.HallsId;
+                        //    addhall.HallsName = HallsName;
+                        //    addhall.Capacity = Capacity;
+                        //}
+                        context.SaveChanges();
+                        Reset();
+                    
                 }
-                
+                else
+                {
+                    dialogText = "Такой зал уже есть";
+                    dialog = true;
+                }
+
+                }
+                else
+                {
+                    dialogText = "Заполните все поля";
+                    dialog = true;
+                }
             }
-            else
+
+
+            public AddHallsViewModel(User user, MainWindowViewModel vm)
             {
-                dialogText = "Заполните все поля";
-                dialog = true;
+                this.user = user;
+                MainWindowVM = vm;
+
+                AddHallsCommand = new LambdaCommand(OnAddHallsCommandExecute, CanAddHallsCommandExecute);
+                CloseDialogCommand = new LambdaCommand(OnCloseDialogCommandExecuted, CanCloseDialogCommandExecute);
             }
-        }
-
-
-        public AddHallsViewModel(User user, MainWindowViewModel vm)
-        {
-            this.user = user;
-            MainWindowVM = vm;
-
-            AddHallsCommand = new LambdaCommand(OnAddHallsCommandExecute, CanAddHallsCommandExecute);
-            CloseDialogCommand = new LambdaCommand(OnCloseDialogCommandExecuted, CanCloseDialogCommandExecute);
         }
     }
-}

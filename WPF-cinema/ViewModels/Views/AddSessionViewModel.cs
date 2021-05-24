@@ -106,6 +106,8 @@ namespace WPF_cinema.ViewModels.Views
                     string timeValid = @"\d{2}:\d{2}";
                     if (Regex.IsMatch(time, timeValid))
                     {
+                        //if (context.Sessions.FirstOrDefault(s => s.FilmsId == selectedFilm.FilmsId && s.HallsId == selectedHall.HallsId && date == date && time == time) != null)
+                        //{
                         var ses1 = new Session(selectedFilm.FilmsId, selectedHall.HallsId, date, time);
                         ses1.Films = selectedFilm;
                         ses1.Halls = selectedHall;
@@ -114,21 +116,32 @@ namespace WPF_cinema.ViewModels.Views
                             context.Sessions.Add(ses1);
                             context.SaveChanges();
                             Reset();
-                        }
-                        if (context.Tickets.FirstOrDefault(t => t.SessionId == ses1.SessionId) == null)
-                        {
-                            for (int i = 1; i < 4; i++)
+                            if (context.Tickets.FirstOrDefault(t => t.SessionId == ses1.SessionId) == null)
                             {
-                                for (int j = 1; j < 4; j++)
+                                for (int i = 1; i < 4; i++)
                                 {
-                                    //context.Tickets.Add(new Ticket { SessionId = ses1.SessionId, Row = j, Place = i });
-                                    Ticket tic = new Ticket(j, i);
-                                    tic.Session = context.Sessions.FirstOrDefault(s => s.SessionId == ses1.SessionId);
-                                    context.Tickets.Add(tic);
+                                    for (int j = 1; j < 4; j++)
+                                    {
+                                        //context.Tickets.Add(new Ticket { SessionId = ses1.SessionId, Row = j, Place = i });
+                                        Ticket tic = new Ticket(j, i);
+                                        tic.Session = context.Sessions.FirstOrDefault(s => s.SessionId == ses1.SessionId);
+                                        context.Tickets.Add(tic);
+                                    }
                                 }
+                                context.SaveChanges();
                             }
-                            context.SaveChanges();
                         }
+
+                        else
+                        {
+                            dialogText = "Такой сеанс уже есть уже есть";
+                            dialog = true;
+                        }
+                        //else
+                        //{
+                        //    dialogText = "такой сеанс уже есть";
+                        //    dialog = true;
+                        //}
                     }
                     else
                     {

@@ -67,6 +67,7 @@
 
                                 </StackPanel>
                             </Grid>
+
                             <Grid>
 
                                 <Button Command="{Binding LoginCommand}" VerticalAlignment="Bottom" Margin="0,85" Width="150" Background="#D34A44" BorderBrush="#D34A44" Content="Вход"/>
