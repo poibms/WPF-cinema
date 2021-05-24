@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System;
 using Microsoft.Win32;
 using System.IO;
+using System.Linq;
 
 namespace WPF_cinema.ViewModels.Views
 {
@@ -96,7 +97,7 @@ namespace WPF_cinema.ViewModels.Views
             director = "";
             time = "";
             description = "";
-            //filmPicture = _noPhoto;
+            filmPicture = null;
 
 
         }
@@ -124,32 +125,42 @@ namespace WPF_cinema.ViewModels.Views
         {
            
             if(filmName?.Length > 0 && genre?.Length > 0 && country?.Length > 0 && director?.Length > 0 && time?.Length > 0 && description?.Length > 0)
-            {     
-                var film = new Film(filmName, genre, country, director, time, description);
-                if (editfilm == null)
+            {
+                if (context.Films.FirstOrDefault(f => f.FilmsName == filmName) == null)
                 {
-                    context.Films.Add(film);
-                    
+
+
+                    var film = new Film(filmName, genre, country, director, time, description);
+                    if (editfilm == null)
+                    {
+                        context.Films.Add(film);
+
+                    }
+                    else
+                    {
+                        film.FilmsId = editfilm.FilmsId;
+                        editfilm.FilmsName = filmName;
+                        editfilm.Genre = genre;
+                        editfilm.Country = country;
+                        editfilm.Director = director;
+                        editfilm.Description = description;
+                        editfilm.Time = time;
+
+                    }
+                    context.SaveChanges();
+                    Directory.CreateDirectory(_myDocumentsPath + $@"\PalaceOfArts\films\{film.FilmsId}");
+                    try
+                    {
+                        File.Copy(_imgPath, _myDocumentsPath + $@"\PalaceOfArts\films\{film.FilmsId}\cover.jpg", true);
+                    }
+                    catch { }
+                    Reset();
                 }
                 else
                 {
-                    film.FilmsId = editfilm.FilmsId;
-                    editfilm.FilmsName = filmName;
-                    editfilm.Genre = genre;
-                    editfilm.Country = country;
-                    editfilm.Director = director;
-                    editfilm.Description = description;
-                    editfilm.Time = time;
-
+                    dialogText = "Такой фильм уже есть";
+                    dialog = true;
                 }
-                context.SaveChanges();
-                //Directory.CreateDirectory(_myDocumentsPath + $@"\PalaceOfArts\films\{film.FilmsId}");
-                //try
-                //{
-                //    File.Copy(_imgPath, _myDocumentsPath + $@"\PalaceOfArts\films\{film.FilmsId}\cover.jpg", true);
-                //}
-                //catch { }
-                Reset();
             }
             else
             {
@@ -158,14 +169,16 @@ namespace WPF_cinema.ViewModels.Views
             }
         }
 
-        public AddFilmViewModel(User user, MainWindowViewModel vm)
+        public AddFilmViewModel(User user, MainWindowViewModel mainWindowVM)
         {
             this.user = user;
-            MainwindowVM = vm;
-
+            MainwindowVM = mainWindowVM;
+            
             SelectImagePathCommand = new LambdaCommand(OnSelectImagePathCommandExecuted, CanSelectImagePathCommandExecute);
             AddFillmCommand = new LambdaCommand(OnAddFilmCommandExecuted, CanAddFilmCommandExecute);
             CloseDialogCommand = new LambdaCommand(OnCloseDialogCommandExecuted, CanCloseDialogCommandExecute);
         }
+
+       
     }
 }

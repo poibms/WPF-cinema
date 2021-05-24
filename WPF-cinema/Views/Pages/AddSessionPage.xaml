@@ -14,16 +14,28 @@
     <!--<UserControl.Resources>
         <convert:NametoIdConverter x:Key="NametoIdConverter"/>
     </UserControl.Resources>-->
-    <Grid>
+    <materialDesign:DialogHost 
+        IsOpen="{Binding dialog}">
+        <materialDesign:DialogHost.DialogContent>
+            <Border Height="Auto" Width="Auto">
+                <StackPanel Margin="16">
+                    <TextBlock Text="{Binding dialogText}"/>
+
+                    <Button Margin="0" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFlatAccentButton}"
+                                Content="Закрыть" Foreground="#1F2437" Width="90" Height="30" Command="{Binding CloseDialogCommand}"/>
+                </StackPanel>
+            </Border>
+        </materialDesign:DialogHost.DialogContent>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="Добавление Сеанса" Margin="10" FontFamily="AnastasiaScriptC" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="35" Foreground="#D34A44" FontWeight="Bold"/>
-            <Grid Grid.Row="1">
-                <StackPanel VerticalAlignment="Center">
-                    <ComboBox materialDesign:HintAssist.Hint="Фильм"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Добавление Сеанса" Margin="10" FontFamily="AnastasiaScriptC" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="35" Foreground="#D34A44" FontWeight="Bold"/>
+                <Grid Grid.Row="1">
+                    <StackPanel VerticalAlignment="Center">
+                        <ComboBox materialDesign:HintAssist.Hint="Фильм"
                               ItemsSource="{Binding films}"
                                   SelectedItem="{Binding selectedFilm}"
                                   Margin="20 10 20 10"
@@ -31,8 +43,8 @@
                                   MaxWidth="400"
                                   materialDesign:HintAssist.Foreground="#696969"
                                   FontSize="18">
-                    </ComboBox>
-                    <ComboBox materialDesign:HintAssist.Hint="Зал"
+                        </ComboBox>
+                        <ComboBox materialDesign:HintAssist.Hint="Зал"
                               ItemsSource="{Binding halls}"
                                   SelectedItem="{Binding selectedHall}"
                                   Margin="20 10 20 10"
@@ -40,8 +52,8 @@
                                   MaxWidth="400"
                                   materialDesign:HintAssist.Foreground="#696969"
                                   FontSize="18">
-                    </ComboBox>
-                    <TextBox Text="{Binding date}"
+                        </ComboBox>
+                        <TextBox Text="{Binding date}"
                                 VerticalAlignment="Top"
                              HorizontalAlignment="Stretch"
                              TextWrapping="Wrap"
@@ -52,9 +64,9 @@
                              materialDesign:HintAssist.Hint="Дата"
                              materialDesign:HintAssist.Foreground="#696969"
                              FontSize="18" Grid.ColumnSpan="2" Cursor="IBeam" >
-                        
-                    </TextBox>
-                    <TextBox 
+
+                        </TextBox>
+                        <TextBox 
                              Text="{Binding time}"
                              VerticalAlignment="Top"
                              HorizontalAlignment="Stretch"
@@ -66,11 +78,13 @@
                              materialDesign:HintAssist.Hint="Время"
                              materialDesign:HintAssist.Foreground="#696969"
                              FontSize="18" Grid.ColumnSpan="2" Cursor="IBeam" >
-                    </TextBox>
+                        </TextBox>
 
-                    <Button Foreground="#F2F1EF" Background="#D34A44" BorderBrush="#D34A44" Margin="0 20 0 0" FontSize="14" Width="120" Content="Загрузить" Command="{Binding AddSessionommand}" Cursor="Hand"/>
-                </StackPanel>
+                        <Button Foreground="#F2F1EF" Background="#D34A44" BorderBrush="#D34A44" Margin="0 20 0 0" FontSize="14" Width="120" Content="Загрузить" Command="{Binding AddSessionommand}" Cursor="Hand"/>
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Grid>
-    </Grid>
+    </materialDesign:DialogHost>
+
 </UserControl>

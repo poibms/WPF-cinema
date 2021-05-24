@@ -14,9 +14,12 @@ namespace WPF_cinema.ViewModels.Views
         private User user;
         private readonly CinemaDBContext context = new CinemaDBContext();
         private ObservableCollection<Ticket> _orderTicket = new ObservableCollection<Ticket>();
-        private OrderTicket _selectedticket;
+        private Ticket _selectedticket;
         private User _user;
         private MainWindowViewModel mainWindowViewModel;
+
+        private bool _dialog = false;
+        private string _dialogText;
 
         private string _login;
         #endregion
@@ -37,36 +40,59 @@ namespace WPF_cinema.ViewModels.Views
             get => _orderTicket;
             set => Set(ref _orderTicket, value);
         }
-        public OrderTicket selectedticket
+        public Ticket selectedticket
         {
             get => _selectedticket;
             set => Set(ref _selectedticket, value);
         }
+        public bool dialog
+        {
+            get => _dialog;
+            set => Set(ref _dialog, value);
+        }
+        public string dialogText
+        {
+            get => _dialogText;
+            set => Set(ref _dialogText, value);
+        }
+
         #endregion
 
-        public ICommand ChangeNickCommand { get; }
-        private bool CanChangeNickNameCommanddExecute(object p) => login?.Length > 3;
-        private void OnChangeNickNameCommandExecuted(object p)
-        {
-            var ChangeUser = context.Users.Find(user.UserId);
-            if (ChangeUser != null)
-            {
-                ChangeUser.Login = login;
-                context.SaveChanges();
-            }
-            login = null;
-        }
+        
 
         public ICommand DeleteAccountCommand { get; }
         private bool CanDeleteCommandExecute(object p) => true;
         private void OnDeleteCommandExecuted(object p)
         {
+            if (user.Role !=1)
+            {
+
             User us = context.Users.Find(user.UserId);
             
             context.Users.Remove(us);
             context.SaveChanges();
             App.Current.Shutdown();
+            }
+            else
+            {
+                dialogText = "Администратор не может удалить аккаунт";
+                dialog = true;
+            }
         }
+        public ICommand CancelOrderTicketCommand { get; }
+        private bool CanCancelOrderTicketCommandExecute(object p) => true;
+        private void OnCancelOrderTicketCommandExecuted(object p)
+        {
+            foreach (OrderTicket ord in context.OrderTickets.Where(o => o.TicketsId == selectedticket.TicketsId))
+            {
+                context.OrderTickets.Remove(ord);
+            }
+            //context.OrderTickets.Remove(selectedticket);
+
+        }
+        public ICommand CloseDialogCommand { get; }
+        private bool CanCloseDialogCommandExecute(object p) => true;
+        private void OnCloseDialogCommandExecuted(object p) => dialog = false;
 
         public AccountPageViewModel(User user, MainWindowViewModel mainWindowViewModel)
         {
@@ -95,8 +121,9 @@ namespace WPF_cinema.ViewModels.Views
             //    _orderTicket.Add(ordtcts);
             //}
 
-            ChangeNickCommand = new LambdaCommand(OnChangeNickNameCommandExecuted, CanChangeNickNameCommanddExecute);
+            CancelOrderTicketCommand = new LambdaCommand(OnCancelOrderTicketCommandExecuted, CanCancelOrderTicketCommandExecute);
             DeleteAccountCommand = new LambdaCommand(OnDeleteCommandExecuted, CanDeleteCommandExecute);
+            CloseDialogCommand = new LambdaCommand(OnCloseDialogCommandExecuted, CanCloseDialogCommandExecute);
         }
     }
 }

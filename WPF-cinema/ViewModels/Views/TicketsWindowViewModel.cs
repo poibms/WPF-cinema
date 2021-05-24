@@ -28,7 +28,7 @@ namespace WPF_cinema.ViewModels.Views
         private readonly MainWindowViewModel MainWindowVM;
 
         private Visibility _visibleState = Visibility.Visible;
-        private bool _enable = true;
+
         private bool _dialog = false;
         private string _dialogText;
 
@@ -79,17 +79,17 @@ namespace WPF_cinema.ViewModels.Views
             get => _dialog;
             set => Set(ref _dialog, value);
         }
-        public bool enable
-        {
-            get => _enable;
-            set => Set(ref _enable, value);
-        }
-
         public string dialogText
         {
             get => _dialogText;
             set => Set(ref _dialogText, value);
         }
+
+        //public bool enable
+        //{
+        //    get => _enable;
+        //    set => Set(ref _enable, value);
+        //}
 
         #endregion
 
@@ -124,8 +124,11 @@ namespace WPF_cinema.ViewModels.Views
         private bool CanRefreshTicketsComandExecute(object p) => true;
         private void OnRefreshTicketsCommandExecute(object p)
         {
-            tickets = new ObservableCollection<Ticket>(context.Tickets.AsNoTracking().ToList());
+            tickets = new ObservableCollection<Ticket>(context.Tickets.ToList());
+            film = null;
+            session = null;
         }
+
         private static bool _CanPingGoogle()
         {
             const int timeout = 1000;
@@ -156,37 +159,42 @@ namespace WPF_cinema.ViewModels.Views
                 context.SaveChanges();
 
                 //tickets.Remove(selectedOutput);
-                //if (_CanPingGoogle())
-                //{
-                //    try
-                //    {
-                //        MailAddress from = new MailAddress("unc7447@gmail.com", "Company Rentlock");
-                //        MailAddress to = new MailAddress($"{user.Email}");
-                //        MailMessage m = new MailMessage(from, to);
-                //        m.Subject = "Rentlock";
-                //        m.Body = $"<h2>Dear {user.Name}, thank you for oredring the {selectedOutput.Session.Films.FilmsName} on the {selectedOutput.Session.Date} {selectedOutput.Session.Time}.</h2>";
-                //        m.IsBodyHtml = true;
-                //        SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                //        smtp.Credentials = new NetworkCredential("unc7447@gmail.com", "Macbook2019");
-                //        smtp.EnableSsl = true;
-                //        smtp.Send(m);
-                //        Console.Read();
-                //        MessageBox.Show($"Thank you for order, our manager will contact you.\nCheck your e-mail {user.Email}.");
+                if (_CanPingGoogle())
+                {
+                    try
+                    {
+                        MailAddress from = new MailAddress("unc7447@gmail.com", "Palace of Arts");
+                        MailAddress to = new MailAddress($"{user.Email}");
+                        MailMessage m = new MailMessage(from, to);
+                        m.Subject = "Palace Of Arts";
+                        m.Body = $"<h2>Здравствуйте, {user.Name}, спасибо за то, что воспользовались нашим приложением. <br> Фильм:{selectedOutput.Session.Films.FilmsName}, Зал: {selectedOutput.Session.Halls.HallsName} Дата: {selectedOutput.Session.Date}, Время: {selectedOutput.Session.Time}. Ряд и место: {selectedOutput.Row}; {selectedOutput.Place} </h2>";
+                        //m.Body = "empty";
+                        //{selectedOutput.Session.Films.FilmsName} on the {selectedOutput.Session.Date} {selectedOutput.Session.Time}
+                        m.IsBodyHtml = true;
+                        SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                        smtp.Credentials = new NetworkCredential("unc7447@gmail.com", "Macbook2019");
+                        smtp.EnableSsl = true;
+                        smtp.Send(m);
+                        Console.Read();
+                        dialogText = $"Спасибо за заказ.\n Письмо отправлено по адресу {user.Email}.";
+                        dialog = true;
 
-                //    }
-                //    catch
-                //    {
-                //        MessageBox.Show("Thank you for order, our manager will contact you\nYour email doesn't exist");
-                //    }
-                //}
-                //else
-                //{
-                //    MessageBox.Show("Thank you for order, our manager will contact you");
+                    }
+                    catch
+                    {
+                        dialogText = "Спасибо за заказ\nСообщение не было отправлено";
+                        dialog = true;
+                    }
+                }
+                else
+                {
+                    dialogText = "Спасибо за заказ, наш менеджер свяжется с вами";
+                    dialog = true;
 
-                //}
-                
-                dialogText = "Спасибо за заказ";
-                dialog = true;
+                }
+                tickets.Remove(selectedOutput);
+                //dialogText = "Спасибо за заказ";
+                //dialog = true;
             }
             else
             {
@@ -196,11 +204,7 @@ namespace WPF_cinema.ViewModels.Views
         }
         #endregion
 
-        public ICommand AccountCommand { get; }
-        private void OnAccountCommandCommandExecuted(object p)
-        {
-            MainWindowVM.selectedVM = new AccountPageViewModel(user, MainWindowVM);
-        }
+        
 
         public TicketsWindowViewModel(User user, MainWindowViewModel mainwindowVM)
         {
@@ -208,7 +212,7 @@ namespace WPF_cinema.ViewModels.Views
             this.MainWindowVM = mainwindowVM;
 
             tickets = new ObservableCollection<Ticket>(context.Tickets.ToList());
-            
+
             foreach (var ticket in tickets)
             {
                 ticket.Session = context.Sessions.FirstOrDefault(s => s.SessionId == ticket.SessionId);
@@ -220,7 +224,6 @@ namespace WPF_cinema.ViewModels.Views
             AddOrderTicketCommand = new LambdaCommand(OnAddOrderTicketCommandExecuted, CanAddOrderTicketCommandExecute);
             SortTickets = new LambdaCommand(OnSortTicketsCommandExecute, CanSortTicketsComandExecute);
             RefreshTickets = new LambdaCommand(OnRefreshTicketsCommandExecute, CanRefreshTicketsComandExecute);
-            AccountCommand = new LambdaCommand(OnAccountCommandCommandExecuted);
             CloseDialogCommand = new LambdaCommand(OnCloseDialogCommandExecuted, CanCloseDialogCommandExecute);
         }
     }

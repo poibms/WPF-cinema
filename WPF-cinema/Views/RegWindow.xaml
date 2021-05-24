@@ -6,6 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:WPF_cinema.Views"
+        xmlns:cmd="clr-namespace:WPF_cinema.Assistants.Commands" 
         xmlns:vm="clr-namespace:WPF_cinema.ViewModels"
         xmlns:bh="clr-namespace:WPF_cinema.Assistants.Behaviors" 
         mc:Ignorable="d"
@@ -79,6 +80,9 @@
                     </Grid>
                     <Button  Padding="1"  VerticalAlignment="Top" HorizontalAlignment="Right" Width="25" Height="25"  Margin="0 3 5 0" Background="Transparent" BorderBrush="Transparent">
                         <materialDesign:PackIcon Kind="Close" Width="30" Height="30" Foreground="#FFF" />
+                        <Button.Command>
+                            <cmd:AppClose/>
+                        </Button.Command>
                     </Button>
                 </Grid>
             </Border>

@@ -19,6 +19,8 @@ namespace WPF_cinema.ViewModels.Views
         private Film _selectedfilm;
         private Film _flmname;
 
+        private bool _dialog = false;
+        private string _dialogText;
         #endregion
 
         #region public
@@ -36,6 +38,16 @@ namespace WPF_cinema.ViewModels.Views
         {
             get => _flmname;
             set => Set(ref _flmname, value);
+        }
+        public bool dialog
+        {
+            get => _dialog;
+            set => Set(ref _dialog, value);
+        }
+        public string dialogText
+        {
+            get => _dialogText;
+            set => Set(ref _dialogText, value);
         }
         #endregion
         #region command
@@ -59,30 +71,56 @@ namespace WPF_cinema.ViewModels.Views
         {
             MainWindowVM.selectedVM = new AddSessionViewModel(user, MainWindowVM);
         }
+        public ICommand CloseDialogCommand { get; }
+        private bool CanCloseDialogCommandExecute(object p) => true;
+        private void OnCloseDialogCommandExecuted(object p) => dialog = false;
+
+        //public ICommand ChangeFilmCommand { get; }
+        //private bool CanChangeFilmCommandExecute(object p) => true;
+        //private void OnChangeFilmCommandExecute(object p)
+        //{
+        //    if (Film != null)
+        //    {
+        //        MainWindowVM.selectedVM = new AddFilmViewModel(user, (int)p, MainWindowVM);
+        //    }
+        //    else
+        //    {
+        //        dialogText = "Выберите фильм";
+        //        dialog = true;
+        //    }
+        //}
         public ICommand DeleteFilmCommand { get; }
         private bool CanDeleteFilmCommandExecute(object p) => true;
         private void OnDeleteFilmCommandExecute(object p)
         {
-            foreach (Film flm in context.Films.Where(f => f.FilmsId == FilmName.FilmsId))
+            if (Film != null)
             {
-                context.Films.Remove(flm);
+                foreach (Film flm in context.Films.Where(f => f.FilmsId == FilmName.FilmsId))
+                {
+                    context.Films.Remove(flm);
+                }
+                foreach (Session ssion in context.Sessions.Where(s => s.FilmsId == FilmName.FilmsId))
+                {
+                    context.Sessions.Remove(ssion);
+                }
+                foreach (Ticket tckt in context.Tickets.Where(t => t.Session.Films.FilmsId == FilmName.FilmsId))
+                {
+                    context.Tickets.Remove(tckt);
+                }
+                foreach (OrderTicket ordtckt in context.OrderTickets.Where(o => o.Tickets.Session.Films.FilmsId == FilmName.FilmsId))
+                {
+                    context.OrderTickets.Remove(ordtckt);
+                }
+                context.SaveChanges();
+                Film = null;
             }
-            foreach (Session ssion in context.Sessions.Where(s => s.FilmsId == FilmName.FilmsId))
+            else
             {
-                context.Sessions.Remove(ssion);
-            } 
-            foreach (Ticket tckt in context.Tickets.Where(t => t.Session.Films.FilmsId == FilmName.FilmsId))
-            {
-                context.Tickets.Remove(tckt);
+                dialogText = "Выберите фильм";
+                dialog = true;
             }
-            foreach (OrderTicket ordtckt in context.OrderTickets.Where(o => o.Tickets.Session.Films.FilmsId == FilmName.FilmsId))
-            {
-                context.OrderTickets.Remove(ordtckt);
-            }
-            context.SaveChanges();
-
         }
-        
+
         #endregion
 
         public AdminPageViewModel(User user, MainWindowViewModel vm)
@@ -94,8 +132,10 @@ namespace WPF_cinema.ViewModels.Views
             FilmsViewCommand = new LambdaCommand(OnSwitchFilmsCommandExecuted);
             SessionViewCommand = new LambdaCommand(OnSwitchSessionCommandExecuted);
             TicketsViewCommand = new LambdaCommand(OnSwitchTicketsCommandExecuted);
-            
+
             DeleteFilmCommand = new LambdaCommand(OnDeleteFilmCommandExecute, CanDeleteFilmCommandExecute);
+            //ChangeFilmCommand = new LambdaCommand(OnChangeFilmCommandExecute, CanChangeFilmCommandExecute);
+            CloseDialogCommand = new LambdaCommand(OnCloseDialogCommandExecuted, CanCloseDialogCommandExecute);
         }
     }
 }

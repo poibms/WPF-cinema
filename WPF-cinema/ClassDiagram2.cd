@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WPF_cinema.ViewModels.Base.BaseViewModel" Collapsed="true">
+    <Position X="23" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAIAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\Base\BaseViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WPF_cinema.ViewModels.Views.AccountPageViewModel" Collapsed="true">
+    <Position X="10.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ASADAAAEAAAAAGAIAAAAACgAAUAUAJAgAgQAIAAAUQA=</HashCode>
+      <FileName>ViewModels\Views\AccountPageViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WPF_cinema.ViewModels.Views.AddFilmViewModel" Collapsed="true">
+    <Position X="13" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAEAAA0DGAMIEAIIFwCAAAUAEAaQCAAEQEAASA=</HashCode>
+      <FileName>ViewModels\Views\AddFilmViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WPF_cinema.ViewModels.Views.AddHallsViewModel" Collapsed="true">
+    <Position X="15.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACEAAEAAAABGAMAAAAQAwCQAAUAABAAQAAAAAAAQA=</HashCode>
+      <FileName>ViewModels\Views\AddHallsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WPF_cinema.ViewModels.Views.AddSessionViewModel" Collapsed="true">
+    <Position X="17.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAABEAAAgFGAIBAQEAAgAAAIUQAAIEACAAxIAARA=</HashCode>
+      <FileName>ViewModels\Views\AddSessionViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WPF_cinema.ViewModels.Views.AdminPageViewModel" Collapsed="true">
+    <Position X="19.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACGAAEBQAAAGAKAAQCAAgAAAGUBAAAAgCAAFICAUA=</HashCode>
+      <FileName>ViewModels\Views\AdminPageViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WPF_cinema.ViewModels.Views.AllFilmsViewModel" Collapsed="true">
+    <Position X="22" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAAgAAAQAAAAAAgAAACEACQgDQAgAAIAQA=</HashCode>
+      <FileName>ViewModels\Views\AllFilmsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WPF_cinema.ViewModels.Views.FilmPageViewModel" Collapsed="true">
+    <Position X="24.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAABAAAAAAAAQAAAAAAAAAAAAAAQAAQAABAAAQA=</HashCode>
+      <FileName>ViewModels\Views\FilmPageViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WPF_cinema.ViewModels.Views.TicketsWindowViewModel" Collapsed="true">
+    <Position X="26.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>oAAKEEAMIAAAAOAIBAEgAEgEAAAVCAAnACQAABQAAQA=</HashCode>
+      <FileName>ViewModels\Views\TicketsWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WPF_cinema.ViewModels.AuthWindowViewModel" Collapsed="true">
+    <Position X="28.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAACAAAEAAAAAGQIAAAAAAgAAIAUAAAIABQQIECAAAA=</HashCode>
+      <FileName>ViewModels\AuthWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WPF_cinema.ViewModels.MainWindowViewModel" Collapsed="true">
+    <Position X="31" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAQQAAAAFAAAAEAAAAAAQAAQAABQA=</HashCode>
+      <FileName>ViewModels\MainWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WPF_cinema.ViewModels.RegWindowViewModel" Collapsed="true">
+    <Position X="33.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAACIAAEACAgAGAIAAEABAwAAAAUAACIAAAgCAAAGAE=</HashCode>
+      <FileName>ViewModels\RegWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

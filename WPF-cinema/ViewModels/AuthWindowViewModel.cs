@@ -53,8 +53,8 @@ namespace WPF_cinema.ViewModels
                 {
                     DataContext = MainWindowViewModel
                 };
-                MainWindow.Show();
                 window.Close();
+                MainWindow.Show();
             }
             else
             {
