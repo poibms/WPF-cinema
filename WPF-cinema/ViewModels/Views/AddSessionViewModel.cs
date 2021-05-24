@@ -90,7 +90,7 @@ namespace WPF_cinema.ViewModels.Views
             halls = null;
             date = "";
             time = "";
-            
+
         }
 
         public ICommand AddSessionommand { get; }
@@ -99,31 +99,41 @@ namespace WPF_cinema.ViewModels.Views
         {
             if (films != null && halls != null && date?.Length > 0 && time?.Length > 0)
             {
+
                 string data = @"\d{2}-\d{2}-\d{4}";
                 if (Regex.IsMatch(date, data))
                 {
-                    var ses1 = new Session(selectedFilm.FilmsId, selectedHall.HallsId, date, time);
-                    ses1.Films = selectedFilm;
-                    ses1.Halls = selectedHall;
-                    if (context.Sessions.FirstOrDefault(s => s.FilmsId == _selectedFilm.FilmsId && s.HallsId == selectedHall.HallsId && s.Date == date && s.Time == time) == null)
+                    string timeValid = @"\d{2}:\d{2}";
+                    if (Regex.IsMatch(time, timeValid))
                     {
-                        context.Sessions.Add(ses1);
-                        context.SaveChanges();
-                        Reset();
-                    }
-                    if (context.Tickets.FirstOrDefault(t => t.SessionId == ses1.SessionId) == null)
-                    {
-                        for (int i = 1; i < 4; i++)
+                        var ses1 = new Session(selectedFilm.FilmsId, selectedHall.HallsId, date, time);
+                        ses1.Films = selectedFilm;
+                        ses1.Halls = selectedHall;
+                        if (context.Sessions.FirstOrDefault(s => s.FilmsId == _selectedFilm.FilmsId && s.HallsId == selectedHall.HallsId && s.Date == date && s.Time == time) == null)
                         {
-                            for (int j = 1; j < 4; j++)
-                            {
-                                //context.Tickets.Add(new Ticket { SessionId = ses1.SessionId, Row = j, Place = i });
-                                Ticket tic = new Ticket(j, i);
-                                tic.Session = context.Sessions.FirstOrDefault(s => s.SessionId == ses1.SessionId);
-                                context.Tickets.Add(tic);
-                            }
+                            context.Sessions.Add(ses1);
+                            context.SaveChanges();
+                            Reset();
                         }
-                        context.SaveChanges();
+                        if (context.Tickets.FirstOrDefault(t => t.SessionId == ses1.SessionId) == null)
+                        {
+                            for (int i = 1; i < 4; i++)
+                            {
+                                for (int j = 1; j < 4; j++)
+                                {
+                                    //context.Tickets.Add(new Ticket { SessionId = ses1.SessionId, Row = j, Place = i });
+                                    Ticket tic = new Ticket(j, i);
+                                    tic.Session = context.Sessions.FirstOrDefault(s => s.SessionId == ses1.SessionId);
+                                    context.Tickets.Add(tic);
+                                }
+                            }
+                            context.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        dialogText = "Неверный формат даты.\n 00:00";
+                        dialog = true;
                     }
                 }
                 else
@@ -131,6 +141,7 @@ namespace WPF_cinema.ViewModels.Views
                     dialogText = "Неверный формат даты";
                     dialog = true;
                 }
+
             }
             else
             {

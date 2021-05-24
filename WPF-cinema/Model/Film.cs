@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
@@ -19,7 +20,7 @@ namespace WPF_cinema
         public string Director { get; set; }
         public string Genre { get; set; }
         public string Time { get; set; }
-        //[]
+        [StringLength(1000)]
         public string Description { get; set; }
 
         public Film(string filmName, string genre, string country, string director, string time, string description)

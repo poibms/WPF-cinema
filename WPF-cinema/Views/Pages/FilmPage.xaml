@@ -30,10 +30,7 @@
         </StackPanel>
 
         <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="300"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300"/>
                 <ColumnDefinition Width="*"/>
@@ -58,7 +55,7 @@
                     <TextBlock Text="{Binding film.Time}" Margin="10 3 0 0" FontSize="18" />
                 </StackPanel>
                 <TextBlock Text="Описание:" Margin="0 10 0 0" FontSize="18"/>
-                <ScrollViewer  Grid.ColumnSpan="2" Grid.Row="1" Height="80" Margin="0 5 0 0">
+                <ScrollViewer  Grid.ColumnSpan="2" Grid.Row="1" Height="100" Margin="0 5 0 0">
                     <TextBlock TextWrapping="Wrap"  FontSize="18" Text="{Binding film.Description}"/>
                 </ScrollViewer>
 

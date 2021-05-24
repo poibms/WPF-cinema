@@ -64,7 +64,8 @@ namespace WPF_cinema.ViewModels
 
             if (v == "Catalog")
                 selectedVM = new AllFilmsViewModel(user, this);
-
+            else if(v == "AdminPage")
+                selectedVM = new AdminPageViewModel(user,this);
             SwitchUserCommand = new LambdaCommand(OnSwitchUserCommandExecuted, CanSwitchUserCommandExecute);
             SwitchViewCommand = new LambdaCommand(OnSwitchViewCommandExecuted);
         }

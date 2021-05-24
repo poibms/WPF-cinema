@@ -23,15 +23,6 @@ namespace WPF_cinema.ViewModels.Views
             get => _film;
         }
 
-
-        //public Session session
-        //{
-        //    get => _session;
-        //}
-        //public Hall hall
-        //{
-        //    get => _hall;
-        //}
         #endregion
 
         public ICommand SwitchViewCommand { get; }
@@ -40,17 +31,7 @@ namespace WPF_cinema.ViewModels.Views
         {
             MainwindowVM.selectedVM = new AllFilmsViewModel(user, MainwindowVM);
         }
-        //public ICommand TicketsPageCommand { get; }
-        //private void OnSwitchTicketCommandExecuted(object p)
-        //{
-        //    MainwindowVM.selectedVM = new TicketsWindowViewModel(user,MainwindowVM);
-        //}
-        //public ICommand SessionPageCommand { get; }
-        //private bool CanSwitchSassionCommandExecute(object p) => true;
-        //private void OnSwitchSassionCommandExecuted(object p)
-        //{
-        //    MainwindowVM.selectedVM = new SessionPageViewModel(user, (int)p, MainwindowVM);
-        //}
+       
 
 
         public FilmPageViewModel(User user, int FilmId, MainWindowViewModel mainwindowVM)
@@ -60,15 +41,8 @@ namespace WPF_cinema.ViewModels.Views
 
             _film = context.Films.Find(FilmId);
 
-            //var ssion = context.Sessions.FirstOrDefault(s => s.FilmsId == FilmId);
-            //var film = context.Films.FirstOrDefault(f => f.FilmsId == ssion.FilmsId);
-            //var hall = context.Halls.FirstOrDefault(f => f.HallsId == ssion.HallsId);
-            //var ticket = context.Tickets.FirstOrDefault(t => t.SessionId == ssion.SessionId);
-            //output = film.FilmsName + " " + hall.HallsName + " " + ssion.Date.ToString() + " " + ssion.Time.ToString() + " " + ticket.Place.ToString() + " " + ticket.Row.ToString();
-
             SwitchViewCommand = new LambdaCommand(OnSwitchViewCommandExecuted, CanSwitchViewCommandExecute);
-            //TicketsPageCommand = new LambdaCommand(OnSwitchTicketCommandExecuted);
-            //SessionPageCommand = new LambdaCommand(OnSwitchSassionCommandExecuted, CanSwitchSassionCommandExecute);
+            
         }
     }
 }

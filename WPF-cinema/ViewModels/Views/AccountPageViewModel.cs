@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using WPF_cinema.ViewModels.Base;
 using System.Collections.ObjectModel;
 using WPF_cinema.Assistants.Commands;
+using Microsoft.EntityFrameworkCore;
 
 namespace WPF_cinema.ViewModels.Views
 {
@@ -28,7 +29,7 @@ namespace WPF_cinema.ViewModels.Views
         public User User
         {
             get => _user;
-            
+
         }
         public string login
         {
@@ -58,20 +59,20 @@ namespace WPF_cinema.ViewModels.Views
 
         #endregion
 
-        
+
 
         public ICommand DeleteAccountCommand { get; }
         private bool CanDeleteCommandExecute(object p) => true;
         private void OnDeleteCommandExecuted(object p)
         {
-            if (user.Role !=1)
+            if (user.Role != 1)
             {
 
-            User us = context.Users.Find(user.UserId);
-            
-            context.Users.Remove(us);
-            context.SaveChanges();
-            App.Current.Shutdown();
+                User us = context.Users.Find(user.UserId);
+
+                context.Users.Remove(us);
+                context.SaveChanges();
+                App.Current.Shutdown();
             }
             else
             {
@@ -83,12 +84,24 @@ namespace WPF_cinema.ViewModels.Views
         private bool CanCancelOrderTicketCommandExecute(object p) => true;
         private void OnCancelOrderTicketCommandExecuted(object p)
         {
-            foreach (OrderTicket ord in context.OrderTickets.Where(o => o.TicketsId == selectedticket.TicketsId))
+            if (selectedticket != null)
             {
-                context.OrderTickets.Remove(ord);
+                //foreach (OrderTicket ord in context.OrderTickets.Where(o => o.TicketsId == selectedticket.TicketsId))
+                //{
+                //    context.OrderTickets.Remove(ord);
+                //}
+                //context.OrderTickets.Remove(selectedticket);
+                var newu = context.Users.Include(u => u.OrderTickets).FirstOrDefault(u => u.UserId == user.UserId).OrderTickets.Remove(context.OrderTickets.FirstOrDefault(t => t.TicketsId == selectedticket.TicketsId));
+                
+                orderTicket.Remove(selectedticket);
+                context.SaveChanges();
+                
             }
-            //context.OrderTickets.Remove(selectedticket);
-
+            else
+            {
+                dialogText = "Выберите билет";
+                dialog = true;
+            }
         }
         public ICommand CloseDialogCommand { get; }
         private bool CanCloseDialogCommandExecute(object p) => true;

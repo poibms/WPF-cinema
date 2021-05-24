@@ -61,20 +61,24 @@ namespace WPF_cinema.ViewModels.Views
         {
             if (HallsName != string.Empty && Capacity != 0)
             {
-                var halls = new Hall(HallsName, Capacity);
-                context.Halls.Add(halls);
-                //if (addhall == null)
-                //{
-                //    context.Halls.Add(halls);
-                //}
-                //else
-                //{
-                //    halls.HallsId = addhall.HallsId;
-                //    addhall.HallsName = HallsName;
-                //    addhall.Capacity = Capacity;
-                //}
-                context.SaveChanges();
-                Reset();
+                
+                {
+                    var halls = new Hall(HallsName, Capacity);
+                    context.Halls.Add(halls);
+                    //if (addhall == null)
+                    //{
+                    //    context.Halls.Add(halls);
+                    //}
+                    //else
+                    //{
+                    //    halls.HallsId = addhall.HallsId;
+                    //    addhall.HallsName = HallsName;
+                    //    addhall.Capacity = Capacity;
+                    //}
+                    context.SaveChanges();
+                    Reset();
+                }
+                
             }
             else
             {

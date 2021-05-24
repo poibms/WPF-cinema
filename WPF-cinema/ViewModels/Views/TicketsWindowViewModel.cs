@@ -153,52 +153,57 @@ namespace WPF_cinema.ViewModels.Views
         private bool CanAddOrderTicketCommandExecute(object p) => true;
         private void OnAddOrderTicketCommandExecuted(object p)
         {
-            if (context.OrderTickets.FirstOrDefault(o => o.TicketsId == selectedOutput.TicketsId) == null)
+            if (selectedOutput != null)
             {
-                context.OrderTickets.Add(new OrderTicket { TicketsId = selectedOutput.TicketsId, UserId = user.UserId });
-                context.SaveChanges();
-
-                //tickets.Remove(selectedOutput);
-                if (_CanPingGoogle())
+                if (context.OrderTickets.FirstOrDefault(o => o.TicketsId == selectedOutput.TicketsId) == null)
                 {
-                    try
+                    context.OrderTickets.Add(new OrderTicket { TicketsId = selectedOutput.TicketsId, UserId = user.UserId });
+                    context.SaveChanges();
+
+                    //tickets.Remove(selectedOutput);
+                    if (_CanPingGoogle())
                     {
-                        MailAddress from = new MailAddress("unc7447@gmail.com", "Palace of Arts");
-                        MailAddress to = new MailAddress($"{user.Email}");
-                        MailMessage m = new MailMessage(from, to);
-                        m.Subject = "Palace Of Arts";
-                        m.Body = $"<h2>Здравствуйте, {user.Name}, спасибо за то, что воспользовались нашим приложением. <br> Фильм:{selectedOutput.Session.Films.FilmsName}, Зал: {selectedOutput.Session.Halls.HallsName} Дата: {selectedOutput.Session.Date}, Время: {selectedOutput.Session.Time}. Ряд и место: {selectedOutput.Row}; {selectedOutput.Place} </h2>";
-                        //m.Body = "empty";
-                        //{selectedOutput.Session.Films.FilmsName} on the {selectedOutput.Session.Date} {selectedOutput.Session.Time}
-                        m.IsBodyHtml = true;
-                        SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                        smtp.Credentials = new NetworkCredential("unc7447@gmail.com", "Macbook2019");
-                        smtp.EnableSsl = true;
-                        smtp.Send(m);
-                        Console.Read();
-                        dialogText = $"Спасибо за заказ.\n Письмо отправлено по адресу {user.Email}.";
+                        try
+                        {
+                            MailAddress from = new MailAddress("unc7447@gmail.com", "Palace of Arts");
+                            MailAddress to = new MailAddress($"{user.Email}");
+                            MailMessage m = new MailMessage(from, to);
+                            m.Subject = "Palace Of Arts";
+                            m.Body = $"<h2>Здравствуйте, {user.Name}, спасибо за то, что воспользовались нашим приложением. <br> Фильм:{selectedOutput.Session.Films.FilmsName}, Зал: {selectedOutput.Session.Halls.HallsName} Дата: {selectedOutput.Session.Date}, Время: {selectedOutput.Session.Time}. Ряд и место: {selectedOutput.Row}; {selectedOutput.Place} </h2>";
+                            m.IsBodyHtml = true;
+                            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                            smtp.Credentials = new NetworkCredential("unc7447@gmail.com", "Macbook2019");
+                            smtp.EnableSsl = true;
+                            smtp.Send(m);
+                            Console.Read();
+                            dialogText = $"Спасибо за заказ.\n Письмо отправлено по адресу {user.Email}.";
+                            dialog = true;
+
+                        }
+                        catch
+                        {
+                            dialogText = "Спасибо за заказ\nСообщение не было отправлено";
+                            dialog = true;
+                        }
+                    }
+                    else
+                    {
+                        dialogText = "Спасибо за заказ, наш менеджер свяжется с вами";
                         dialog = true;
 
                     }
-                    catch
-                    {
-                        dialogText = "Спасибо за заказ\nСообщение не было отправлено";
-                        dialog = true;
-                    }
+                    tickets.Remove(selectedOutput);
+
                 }
                 else
                 {
-                    dialogText = "Спасибо за заказ, наш менеджер свяжется с вами";
+                    dialogText = "Этот билет уже заказан";
                     dialog = true;
-
                 }
-                tickets.Remove(selectedOutput);
-                //dialogText = "Спасибо за заказ";
-                //dialog = true;
             }
             else
             {
-                dialogText = "Этот билет уже заказан";
+                dialogText = "Выберите билет, который хотите заказать";
                 dialog = true;
             }
         }

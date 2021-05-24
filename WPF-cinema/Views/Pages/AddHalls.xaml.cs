@@ -22,5 +22,14 @@ namespace WPF_cinema.Views.Pages
         {
             InitializeComponent();
         }
+
+        private void TextInputOnlyNumbers(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+
+            
+            e.Handled = regex.IsMatch(e.Text);
+
+        }
     }
 }

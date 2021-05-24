@@ -41,10 +41,10 @@ namespace WPF_cinema.ViewModels
 
         public ICommand LoginCommand { get; }
         private bool CanLoginCommandExecute(object p) => Login?.Length > 0 && loginPassword?.Length > 0;
-        AuthWindow window { get => Application.Current.MainWindow as AuthWindow; }
+        
         private void OnLoginCommandExecuted(object p)
         {
-            
+            var window = Application.Current.Windows[0];
             if (context.Users.FirstOrDefault(u => u.Login == Login && u.Password == User.getHash(loginPassword)) != null)
             {
                 User user = context.Users.FirstOrDefault(u => u.Login == Login);
@@ -53,8 +53,8 @@ namespace WPF_cinema.ViewModels
                 {
                     DataContext = MainWindowViewModel
                 };
-                window.Close();
                 MainWindow.Show();
+                window.Close();
             }
             else
             {
@@ -69,9 +69,10 @@ namespace WPF_cinema.ViewModels
         
         private void OnRegWindowCommandExecuted(object p)
         {
-
+            var window = Application.Current.Windows[0];
             var RegWindow = new RegWindow();
             RegWindow.Show();
+            //Application.Current.MainWindow.Close();
             window.Close();
         }
 

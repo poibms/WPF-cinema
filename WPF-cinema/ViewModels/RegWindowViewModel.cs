@@ -64,59 +64,67 @@ namespace WPF_cinema.ViewModels
         {
             string pattern = @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$";
-
-
-            if (context.Users.FirstOrDefault(u => u.Login == registerLogin) == null)
-            {
-                var window = Application.Current.Windows[0];
-                if (Regex.IsMatch(Email, pattern, RegexOptions.IgnoreCase))
+            string login = "^[a-zA-Z][a-zA-Z._\\d]*$";
+            if (Regex.IsMatch(registerLogin,login)) {
+                if (context.Users.FirstOrDefault(u => u.Login == registerLogin) == null)
                 {
-                    if (context.Users.FirstOrDefault(u => u.Email == Email) == null)
+
+                    if (Regex.IsMatch(Email, pattern, RegexOptions.IgnoreCase))
                     {
-                        if (context.Users.Count() == 0)
+                        if (context.Users.FirstOrDefault(u => u.Email == Email) == null)
                         {
-                            User user1 = new User(Name, Email, registerLogin, registerPassword);
-                            user1.Role = 1;
-                            context.Users.Add(user1);
-                            context.SaveChanges();
-                            var MainWindowViewModel = new MainWindowViewModel(user1, "AdminPage");
-                            var MainWindow = new MainWindow
+                            if (context.Users.Count() == 0)
                             {
-                                DataContext = MainWindowViewModel
-                            };
-                            MainWindow.Show();
-                            window.Close();
+                                var window = Application.Current.Windows[0];
+                                User user1 = new User(Name, Email, registerLogin, registerPassword);
+                                user1.Role = 1;
+                                context.Users.Add(user1);
+                                context.SaveChanges();
+                                var MainWindowViewModel = new MainWindowViewModel(user1, "AdminPage");
+                                var MainWindow = new MainWindow
+                                {
+                                    DataContext = MainWindowViewModel
+                                };
+                                MainWindow.Show();
+                                window.Close();
+                            }
+                            else
+                            {
+                                var window = Application.Current.Windows[0];
+                                User user = new User(Name, Email, registerLogin, registerPassword);
+                                context.Users.Add(user);
+                                context.SaveChanges();
+                                var MainWindowViewModel = new MainWindowViewModel(user, "Catalog");
+                                var MainWindow = new MainWindow
+                                {
+                                    DataContext = MainWindowViewModel
+                                };
+                                MainWindow.Show();
+                                window.Close();
+                            }
                         }
                         else
                         {
-                            User user = new User(Name, Email, registerLogin, registerPassword);
-                            context.Users.Add(user);
-                            context.SaveChanges();
-                            var MainWindowViewModel = new MainWindowViewModel(user, "Catalog");
-                            var MainWindow = new MainWindow
-                            {
-                                DataContext = MainWindowViewModel
-                            };
-                            MainWindow.Show();
-                            window.Close();
+                            dialogText = "Пользователь с таким email уже зарегистрирован";
+                            dialog = true;
                         }
                     }
                     else
                     {
-                        dialogText = "Пользователь с таким email уже зарегистрирован";
+                        dialogText = "Email введен некоректно";
                         dialog = true;
                     }
+
                 }
                 else
                 {
-                    dialogText = "Email введен некоректно";
+                    dialogText = "Пользователь с данным псевдонимом уже зарегистрирован.";
                     dialog = true;
                 }
-
             }
             else
             {
-                dialogText = "Пользователь с данным псевдонимом уже зарегистрирован.";
+                dialogText = "логин не может начинаться с цифры";
                 dialog = true;
             }
 

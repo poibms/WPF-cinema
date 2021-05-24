@@ -67,7 +67,7 @@
   <Class Name="WPF_cinema.ViewModels.AuthWindowViewModel" Collapsed="true">
     <Position X="28.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAACAAAEAAAAAGQIAAAAAAgAAIAUAAAIABQQIECAAAA=</HashCode>
+      <HashCode>IAACAAAEAAAAAGQIAAAAAAgAAIAUAAAAABQQIECAAAA=</HashCode>
       <FileName>ViewModels\AuthWindowViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -83,6 +83,13 @@
     <TypeIdentifier>
       <HashCode>CAACIAAEACAgAGAIAAEABAwAAAAUAACIAAAgCAAAGAE=</HashCode>
       <FileName>ViewModels\RegWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WPF_cinema.Assistants.Behaviors.PasswordBehaviors" Collapsed="true">
+    <Position X="16.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAFAAAAAAAIAAAAAAAAAAAABACAAAAAAAAAAQ=</HashCode>
+      <FileName>Assistants\Behaviors\PasswordBehaviors.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

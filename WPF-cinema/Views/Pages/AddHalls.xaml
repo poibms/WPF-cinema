@@ -49,6 +49,7 @@
                         <TextBox 
                             x:Name="TextCapacity"
                              Text="{Binding Capacity}"
+                            PreviewTextInput="TextInputOnlyNumbers"
                              VerticalAlignment="Center"
                              HorizontalAlignment="Stretch"
                              TextWrapping="Wrap"
@@ -58,7 +59,7 @@
                              MaxWidth="400"
                              materialDesign:HintAssist.Hint="Вместимость"
                              materialDesign:HintAssist.Foreground="#696969"
-                             FontSize="18" Grid.ColumnSpan="2" >
+                             FontSize="18" Grid.ColumnSpan="2" Cursor="IBeam" >
                         </TextBox>
 
                         <Button Foreground="#F2F1EF" 
